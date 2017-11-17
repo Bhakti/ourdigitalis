@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.offers4u.category.service.CategoryService;
-import com.offers4u.entity.Category;
+import com.offers4u.mongodb.domain.Category;
 
 @RestController
 @RequestMapping(path = "/api/v1/categories")

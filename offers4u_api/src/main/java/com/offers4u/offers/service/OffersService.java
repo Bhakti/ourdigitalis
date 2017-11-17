@@ -2,13 +2,21 @@ package com.offers4u.offers.service;
 
 import java.util.List;
 
-import com.offers4u.entity.Offer;
+import com.offers4u.mongodb.domain.Offer;
 
 public interface OffersService {
 
 	List<Offer> getOffers();
 
-	List<Offer> getOffers(String categoryId, String merchantId);
-
 	Offer getOffer(String offerId);
+
+	List<Offer> getOffers(String categoryId, String merchantId, String fromDate, String toDate);
+
+	Offer addOffer(Offer offer);
+
+	Offer updateOffer(String offerId, Offer offer);
+
+	boolean deleteOffer(String offerId);
+
+	boolean addOffers(List<Offer> offerList);
 }

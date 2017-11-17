@@ -7,11 +7,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.offers4u.entity.Category;
-import com.offers4u.entity.Customer;
-import com.offers4u.entity.Segment;
-import com.offers4u.repository.CustomerOfferRepository;
-import com.offers4u.repository.CustomerRepository;
+import com.offers4u.mongodb.domain.Category;
+import com.offers4u.mongodb.domain.Customer;
+import com.offers4u.mongodb.domain.Segment;
+import com.offers4u.mongodb.repository.CustomerRepository;
+
+
 
 @Service("customerService")
 @Transactional
@@ -19,9 +20,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
-
-	@Autowired
-	private CustomerOfferRepository customerOfferRepository;
 
 	@Override
 	public List<Customer> getCustomers() {

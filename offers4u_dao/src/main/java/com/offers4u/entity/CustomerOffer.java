@@ -30,12 +30,12 @@ public class CustomerOffer implements Serializable {
 	private Date rollOutDate;
 
 	//uni-directional many-to-one association to Customer
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 
 	//bi-directional many-to-one association to Offer
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="offer_id")
 	private Offer offer;
 

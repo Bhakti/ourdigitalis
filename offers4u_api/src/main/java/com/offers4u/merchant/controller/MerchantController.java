@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.offers4u.entity.Merchant;
 import com.offers4u.merchant.service.MerchantService;
+import com.offers4u.mongodb.domain.Merchant;
 
 @RestController
 @RequestMapping(path = "/api/v1/merchants")

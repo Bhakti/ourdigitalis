@@ -7,4 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/users")
 public class UserController {
 
+	// User types -- Customer, Merchant, OfferManagers, OfferMonitors, Admin
+
+	// Login
+	// Customer Registration
+	
 }

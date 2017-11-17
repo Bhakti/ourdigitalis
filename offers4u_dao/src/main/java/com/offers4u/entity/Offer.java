@@ -6,11 +6,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,7 +24,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="offers")
-//@NamedQuery(name="Offer.findAll", query="SELECT o FROM Offer o")
+@NamedQuery(name="Offer.findAll", query="SELECT o FROM Offer o")
 public class Offer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -61,12 +63,12 @@ public class Offer implements Serializable {
 	private String title;
 
 	//uni-directional many-to-one association to Category
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="category_id")
 	private Category category;
 
 	//uni-directional many-to-one association to Merchant
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="merchant_id")
 	private Merchant merchant;
 
