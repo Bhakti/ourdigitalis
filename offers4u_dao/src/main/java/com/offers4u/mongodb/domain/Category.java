@@ -13,7 +13,7 @@ public class Category {
 
 	private String categoryName;
 
-	private List<SubCategory> subCategories;
+	private List<String> subCategories;
 
 	public String getId() {
 		return id;
@@ -31,11 +31,11 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public List<SubCategory> getSubCategories() {
+	public List<String> getSubCategories() {
 		return subCategories;
 	}
 
-	public void setSubCategories(List<SubCategory> subCategories) {
+	public void setSubCategories(List<String> subCategories) {
 		this.subCategories = subCategories;
 	}
 

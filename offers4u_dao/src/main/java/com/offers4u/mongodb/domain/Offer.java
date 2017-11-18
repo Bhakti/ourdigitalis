@@ -25,7 +25,7 @@ public class Offer {
 
 	private Category category;
 
-	private SubCategory subCategory;
+	private String subCategory;
 
 	private Date startDate;
 
@@ -95,11 +95,11 @@ public class Offer {
 		this.category = category;
 	}
 
-	public SubCategory getSubCategory() {
+	public String getSubCategory() {
 		return subCategory;
 	}
 
-	public void setSubCategory(SubCategory subCategory) {
+	public void setSubCategory(String subCategory) {
 		this.subCategory = subCategory;
 	}
 
