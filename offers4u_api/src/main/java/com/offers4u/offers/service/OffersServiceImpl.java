@@ -19,26 +19,28 @@ public class OffersServiceImpl implements OffersService {
 	private OfferRepository offerRepository;
 
 	@Override
-	public List<Offer> getOffers(String categoryName, String merchantName, String fromDate, String toDate) {
-		// TO DO date -- to filter expired offers. ongoing and future can be shown.
-		List<Offer> offerList = new ArrayList<>();
-		if (categoryName != null && !categoryName.trim().isEmpty() && merchantName != null
-				&& !merchantName.trim().isEmpty()) {
-			offerList = offerRepository.findByCategoryNameMerchantName(categoryName, merchantName);
-		} else if (categoryName != null && !categoryName.trim().isEmpty()) {
-			offerList = offerRepository.findByCategoryName(categoryName);
-
-		} else if (merchantName != null && !merchantName.trim().isEmpty()) {
-			offerList = offerRepository.findByMerchantName(merchantName);
-		} else {
-			offerList = offerRepository.findAll();
-		}
-		return offerList;
+	public List<Offer> getOffers() {
+		return offerRepository.findAll();
 	}
 
 	@Override
-	public List<Offer> getOffers() {
-		return offerRepository.findAll();
+	public List<Offer> getOffers(String categoryName, String merchantName, String fromDate, String toDate) {
+		// TO DO date -- to filter expired offers. ongoing and future can be shown.
+		// add pagination..
+		List<Offer> offerList = new ArrayList<>();
+		if (categoryName != null && !categoryName.trim().isEmpty() && merchantName != null
+				&& !merchantName.trim().isEmpty()) {
+			offerList = offerRepository.findByCategoryNameMerchantNameLike(categoryName, merchantName);
+		} else if (categoryName != null && !categoryName.trim().isEmpty()) {
+			offerList = offerRepository.findByCategoryNameLike(categoryName);
+
+		} else if (merchantName != null && !merchantName.trim().isEmpty()) {
+			offerList = offerRepository.findByMerchantNameLike(merchantName);
+		} else {
+			offerList = offerRepository.findAll();
+		}
+
+		return offerList;
 	}
 
 	@Override
@@ -47,12 +49,26 @@ public class OffersServiceImpl implements OffersService {
 	}
 
 	@Override
+	public List<Offer> getOffersByCategoryName(String categoryName) {
+		return offerRepository.findByCategoryName(categoryName);
+	}
+
+	@Override
+	public List<Offer> getOffersByMerchantName(String merchantName) {
+		return offerRepository.findByMerchantName(merchantName);
+	}
+
+	@Override
+	public List<Offer> getOffersBySegmentName(String segmentName) {
+		return offerRepository.findBySegmentName(segmentName);
+	}
+
+	@Override
 	public Offer addOffer(Offer offer) {
-		if (offerRepository.exists(offer.getId())) {
-			return null;
-		} else {
+		if (!offerRepository.exists(offer.getId())) {
 			return offerRepository.save(offer);
 		}
+		return null;
 	}
 
 	@Override
@@ -78,4 +94,5 @@ public class OffersServiceImpl implements OffersService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

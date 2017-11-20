@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.offers4u.mongodb.domain.Category;
 import com.offers4u.mongodb.domain.Customer;
+import com.offers4u.mongodb.domain.Notification;
+import com.offers4u.mongodb.domain.RecommendedOffer;
 import com.offers4u.mongodb.domain.Segment;
 import com.offers4u.mongodb.repository.CustomerRepository;
-
-
 
 @Service("customerService")
 @Transactional
@@ -32,20 +32,65 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Segment> getCustomerSegments(String customerId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateProfile(Customer customer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public List<Category> getCustomerPreferences(String customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerRepository.findOne(customerId).getCategoryPreferences();
 	}
+
+	@Override
+	public List<Segment> getCustomerSegments(String customerId) {
+		return customerRepository.findOne(customerId).getSegments();
+	}
+
+	@Override
+	public List<RecommendedOffer> getCustomerRecommendedOffers(String customerId) {
+		return customerRepository.findOne(customerId).getRecommendedOffers();
+	}
+
+	@Override
+	public List<Notification> getCustomerNotification(String customerId) {
+		return customerRepository.findOne(customerId).getNotifications();
+	}
+
+	@Override
+	public boolean updateCustomerProfile(Customer customer) {
+		if (customer != null) {
+			Customer savedCustomer = customerRepository.findOne(customer.getId());
+			if (savedCustomer != null) {
+				savedCustomer.setPersonalDetails(customer.getPersonalDetails());
+				savedCustomer.setCategoryPreferences(customer.getCategoryPreferences());
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCustomerSegments(String customerId, List<Segment> segments) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean updateCustomerRecommendedOffers(String customerId, List<RecommendedOffer> recommendedOffers) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateCustomerNotifications(String customerId, List<Notification> notifications) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

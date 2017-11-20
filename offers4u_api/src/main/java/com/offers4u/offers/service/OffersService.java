@@ -10,6 +10,12 @@ public interface OffersService {
 
 	Offer getOffer(String offerId);
 
+	List<Offer> getOffersByCategoryName(String categoryName);
+
+	List<Offer> getOffersByMerchantName(String merchantName);
+
+	List<Offer> getOffersBySegmentName(String segmentName);
+
 	List<Offer> getOffers(String categoryName, String merchantName, String fromDate, String toDate);
 
 	Offer addOffer(Offer offer);

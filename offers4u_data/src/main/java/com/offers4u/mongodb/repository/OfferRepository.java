@@ -11,22 +11,37 @@ import com.offers4u.mongodb.domain.Offer;
 @Repository
 public interface OfferRepository extends MongoRepository<Offer, String> {
 
+	@Query(value = "{ 'name' :  { $regex: ?0 } }", fields = "{}")
+	public List<Offer> findByName(String name);
+	
+	@Query(value = "{ 'offerType' :  { $regex: ?0 } }", fields = "{}")
+	public List<Offer> findByOfferType(String offerType);
+
 	@Query(value = "{ 'category.id' : ?0  }", fields = "{}")
 	public List<Offer> findByCategoryId(String categoryId);
 
 	@Query(value = "{ 'merchant.id'  :  ?0  }", fields = "{}")
 	public List<Offer> findByMerchantId(String merchantId);
+	
+	@Query(value = "{ 'segment.id'  :  ?0  }", fields = "{}")
+	public List<Offer> findBySegmentId(String segmentId);
 
-	@Query(value = "{ 'name' :  { $regex: ?0 } }", fields = "{}")
-	public List<Offer> findByName(String name);
-
-	@Query(value = "{ 'category.categoryName' : { $regex: ?0 } }", fields = "{}")
+	@Query(value = "{ 'category.categoryName' : ?0 }", fields = "{}")
 	public List<Offer> findByCategoryName(String categoryName);
 
-	@Query("{ 'merchant.merchantName' :  { $regex: ?0 } }")
+	@Query("{ 'merchant.merchantName' :  ?0  }")
 	public List<Offer> findByMerchantName(String merchantName);
 
+	@Query("{ 'segment.segmentName' :  ?0  }")
+	public List<Offer> findBySegmentName(String segmentName);
+
+	@Query(value = "{ 'category.categoryName' : { $regex: ?0 } }", fields = "{}")
+	public List<Offer> findByCategoryNameLike(String categoryName);
+
+	@Query("{ 'merchant.merchantName' :  { $regex: ?0 } }")
+	public List<Offer> findByMerchantNameLike(String merchantName);
+
 	@Query("{ 'category.categoryName' :  { $regex: ?0 }, 'merchant.merchantName' : { $regex: ?0 } }")
-	public List<Offer> findByCategoryNameMerchantName(String categoryName, String merchantName);
+	public List<Offer> findByCategoryNameMerchantNameLike(String categoryName, String merchantName);
 
 }

@@ -17,19 +17,13 @@ public class Offer {
 	// Discount, Cashback, Reward points, Others
 	private String offerType;
 
-	private List<String> offersAt;
-
 	private String description;
-
-	private Merchant merchant;
-
-	private Category category;
-
-	private String subCategory;
 
 	private Date startDate;
 
 	private Date endDate;
+
+	private List<String> offersAt;
 
 	private String offerDetails;
 
@@ -37,7 +31,15 @@ public class Offer {
 
 	private String tAndC;
 
+	private Merchant merchant;
+
 	private Double subscriptionCost;
+
+	private Category category;
+
+	private String subCategory;
+
+	private Segment segment;
 
 	public String getId() {
 		return id;
@@ -85,6 +87,14 @@ public class Offer {
 
 	public void setMerchant(Merchant merchant) {
 		this.merchant = merchant;
+	}
+
+	public Segment getSegment() {
+		return segment;
+	}
+
+	public void setSegment(Segment segment) {
+		this.segment = segment;
 	}
 
 	public Category getCategory() {
@@ -154,8 +164,8 @@ public class Offer {
 	@Override
 	public String toString() {
 		return "Offer [id=" + id + ", name=" + name + ", offerType=" + offerType + ", offersAt=" + offersAt
-				+ ", description=" + description + ", merchant=" + merchant + ", category=" + category
-				+ ", subCategory=" + subCategory + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", description=" + description + ", merchant=" + merchant + ", segment=" + segment + ", category="
+				+ category + ", subCategory=" + subCategory + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", offerDetails=" + offerDetails + ", howToAvail=" + howToAvail + ", tAndC=" + tAndC
 				+ ", subscriptionCost=" + subscriptionCost + "]";
 	}
