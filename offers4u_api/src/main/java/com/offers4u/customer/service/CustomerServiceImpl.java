@@ -71,26 +71,69 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public boolean updateCustomerSegments(String customerId, List<Segment> segments) {
-		
+		if (customerId != null) {
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			if (savedCustomer != null) {
+				savedCustomer.setSegments(segments);
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateCustomerRecommendedOffers(String customerId, List<RecommendedOffer> recommendedOffers) {
-		// TODO Auto-generated method stub
+		if (customerId != null) {
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			if (savedCustomer != null) {
+				savedCustomer.setRecommendedOffers(recommendedOffers);
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
-		// TODO Auto-generated method stub
+		if (customerId != null) {
+			//
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			if (savedCustomer != null) {
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateCustomerNotifications(String customerId, List<Notification> notifications) {
-		// TODO Auto-generated method stub
+		if (customerId != null) {
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			if (savedCustomer != null) {
+				savedCustomer.setNotifications(notifications);
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
-
 }

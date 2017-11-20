@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.offers4u.customer.service.CustomerService;
+import com.offers4u.mongodb.domain.Category;
 import com.offers4u.mongodb.domain.Customer;
 import com.offers4u.mongodb.domain.RecommendedOffer;
+import com.offers4u.mongodb.domain.Segment;
 
 @RestController
 @RequestMapping(path = "/customers")
@@ -50,5 +52,25 @@ public class CustomerController {
 			@RequestParam(name = "toDate", required = false) String toDate) {
 		return customerService.getCustomers();
 	}
+
+	@RequestMapping(value = "/{customerId}/segments", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@ResponseBody
+	public List<Segment> getCustomerSegment(@PathVariable("customerId") String customerId) {
+		return customerService.getCustomerSegments(customerId);
+	}
+
+	@RequestMapping(value = "/{customerId}/preferences", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@ResponseBody
+	public List<Category> getCustomerPreferences(@PathVariable("customerId") String customerId) {
+		return customerService.getCustomerPreferences(customerId);
+	}
+
+	// Add rest api to update profile with preferences
+
+	// Add rest api to update segments
+
+	// Add rest api to update notifications
+
+	// Add rest api to update offers
 
 }

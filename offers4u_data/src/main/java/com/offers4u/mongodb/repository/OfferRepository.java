@@ -11,10 +11,10 @@ import com.offers4u.mongodb.domain.Offer;
 @Repository
 public interface OfferRepository extends MongoRepository<Offer, String> {
 
-	@Query(value = "{ 'name' :  { $regex: ?0 } }", fields = "{}")
+	@Query(value = "{ 'name' :  ? 0  }", fields = "{}")
 	public List<Offer> findByName(String name);
-	
-	@Query(value = "{ 'offerType' :  { $regex: ?0 } }", fields = "{}")
+
+	@Query(value = "{ 'offerType' : ? 0  }", fields = "{}")
 	public List<Offer> findByOfferType(String offerType);
 
 	@Query(value = "{ 'category.id' : ?0  }", fields = "{}")
@@ -22,7 +22,7 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
 
 	@Query(value = "{ 'merchant.id'  :  ?0  }", fields = "{}")
 	public List<Offer> findByMerchantId(String merchantId);
-	
+
 	@Query(value = "{ 'segment.id'  :  ?0  }", fields = "{}")
 	public List<Offer> findBySegmentId(String segmentId);
 
