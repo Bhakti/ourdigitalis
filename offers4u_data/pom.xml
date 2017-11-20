@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.offers4u</groupId>
-	<artifactId>offers4u_domain</artifactId>
+	<artifactId>offers4u_data</artifactId>
 	<version>0.1.0</version>
 
 

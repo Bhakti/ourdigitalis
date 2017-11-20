@@ -12,7 +12,7 @@ import com.offers4u.customer.service.CustomerService;
 import com.offers4u.mongodb.domain.Customer;
 
 @RestController
-@RequestMapping(path = "/api/v1/customers")
+@RequestMapping(path = "/customers")
 public class CustomerController {
 
 	@Autowired

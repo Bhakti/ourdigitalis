@@ -24,7 +24,7 @@
 	</properties>
 
     <modules>
-        <module>offers4u_domain</module>
+        <module>offers4u_data</module>
         <module>offers4u_api</module>
     </modules>
 

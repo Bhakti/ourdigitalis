@@ -12,7 +12,7 @@ import com.offers4u.merchant.service.MerchantService;
 import com.offers4u.mongodb.domain.Merchant;
 
 @RestController
-@RequestMapping(path = "/api/v1/merchants")
+@RequestMapping(path = "/merchants")
 public class MerchantController {
 
 	@Autowired

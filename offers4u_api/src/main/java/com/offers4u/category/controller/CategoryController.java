@@ -12,7 +12,7 @@ import com.offers4u.category.service.CategoryService;
 import com.offers4u.mongodb.domain.Category;
 
 @RestController
-@RequestMapping(path = "/api/v1/categories")
+@RequestMapping(path = "/categories")
 public class CategoryController {
 
 	@Autowired

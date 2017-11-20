@@ -14,23 +14,22 @@ import com.offers4u.mongodb.domain.Offer;
 import com.offers4u.offers.service.OffersService;
 
 @RestController
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/offers")
 public class OfferController {
 
 	@Autowired
 	private OffersService offersService;
 
-	@RequestMapping(value = "/offers", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
 	@ResponseBody
 	public List<Offer> getOffersByParams(@RequestParam(name = "category", required = false) String categoryName,
 			@RequestParam(name = "merchant", required = false) String merchantName,
-			@RequestParam(name = "customer", required = false) String accountNumber,
 			@RequestParam(name = "fromDate", required = false) String fromDate,
 			@RequestParam(name = "toDate", required = false) String toDate) {
 		return offersService.getOffers(categoryName, merchantName, fromDate, toDate);
 	}
 
-	@RequestMapping(value = "/offers/{offerId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@RequestMapping(value = "/{offerId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
 	@ResponseBody
 	public Offer getOffers(@PathVariable("offerId") String offerId) {
 		return offersService.getOffer(offerId);

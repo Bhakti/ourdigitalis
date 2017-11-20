@@ -20,6 +20,7 @@ public class OffersServiceImpl implements OffersService {
 
 	@Override
 	public List<Offer> getOffers(String categoryName, String merchantName, String fromDate, String toDate) {
+		// TO DO date -- to filter expired offers. ongoing and future can be shown.
 		List<Offer> offerList = new ArrayList<>();
 		if (categoryName != null && !categoryName.trim().isEmpty() && merchantName != null
 				&& !merchantName.trim().isEmpty()) {
