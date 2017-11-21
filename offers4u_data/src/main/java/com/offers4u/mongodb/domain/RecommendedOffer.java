@@ -5,6 +5,8 @@ package com.offers4u.mongodb.domain;
 
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 /**
  * @author Bhakti Atul Pradhan
  *
@@ -13,11 +15,16 @@ public class RecommendedOffer {
 
 	private Offer offer;
 
+	private String rollOutType;
+
 	private Date rollOutDate;
 
 	private String comment;
 
 	private String rating;
+
+	@Transient
+	private String avgRating;
 
 	// null, Interested, Availed
 	private String result;
@@ -28,6 +35,14 @@ public class RecommendedOffer {
 
 	public void setOffer(Offer offer) {
 		this.offer = offer;
+	}
+
+	public String getRollOutType() {
+		return rollOutType;
+	}
+
+	public void setRollOutType(String rollOutType) {
+		this.rollOutType = rollOutType;
 	}
 
 	public Date getRollOutDate() {
@@ -54,6 +69,14 @@ public class RecommendedOffer {
 		this.rating = rating;
 	}
 
+	public String getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(String avgRating) {
+		this.avgRating = avgRating;
+	}
+
 	public String getResult() {
 		return result;
 	}
@@ -64,8 +87,9 @@ public class RecommendedOffer {
 
 	@Override
 	public String toString() {
-		return "RecommendedOffer [offer=" + offer + ", rollOutDate=" + rollOutDate + ", comment=" + comment
-				+ ", rating=" + rating + ", result=" + result + "]";
+		return "RecommendedOffer [offer=" + offer + ", rollOutType=" + rollOutType + ", rollOutDate=" + rollOutDate
+				+ ", comment=" + comment + ", rating=" + rating + ", avgRating=" + avgRating + ", result=" + result
+				+ "]";
 	}
 
 }

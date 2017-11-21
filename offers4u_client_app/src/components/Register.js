@@ -3,7 +3,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+
+import FlatButton from 'material-ui/FlatButton';
+
 import axios from 'axios';
+
 class Register extends Component {
   constructor(props){
     super(props);
@@ -11,7 +15,8 @@ class Register extends Component {
       first_name:'',
       last_name:'',
       email:'',
-      password:''
+      password:'',
+      password1:''
     }
   }
 
@@ -21,6 +26,7 @@ class Register extends Component {
     var payload={
       "userid":this.state.username,
 	    "password":this.state.password,
+      "password":this.state.password1,
       "role":this.state.loginRole
     }
     //call backend MuiThemeProvider
@@ -32,7 +38,7 @@ class Register extends Component {
       <div width="60%" align="center">
         <MuiThemeProvider>
           <div width="60%" align="center">
-          <AppBar title="Register"/>
+          <AppBar title="Register" iconElementLeft={<FlatButton label="" />}/>
            <TextField
              hintText="Enter your First Name"
              floatingLabelText="First Name"
@@ -57,6 +63,13 @@ class Register extends Component {
              hintText="Enter your Password"
              floatingLabelText="Password"
              onChange = {(event,newValue) => this.setState({password:newValue})}
+             />
+           <br/>
+           <TextField
+             type = "password"
+             hintText="Enter your Password"
+             floatingLabelText="Password"
+             onChange = {(event,newValue) => this.setState({password1:newValue})}
              />
            <br/>
            <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>

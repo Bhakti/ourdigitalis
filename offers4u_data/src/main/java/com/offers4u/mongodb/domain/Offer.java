@@ -3,6 +3,8 @@ package com.offers4u.mongodb.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,6 +24,9 @@ public class Offer {
 	private Date startDate;
 
 	private Date endDate;
+
+	@Transient
+	private String offerStatus;
 
 	private List<String> offersAt;
 
@@ -127,6 +132,14 @@ public class Offer {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getOfferStatus() {
+		return offerStatus;
+	}
+
+	public void setOfferStatus(String offerStatus) {
+		this.offerStatus = offerStatus;
 	}
 
 	public String getOfferDetails() {

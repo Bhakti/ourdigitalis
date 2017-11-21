@@ -1,9 +1,12 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Container, Row, Col } from 'reactstrap';
 import CardGrid from './CardGrid';
-import OffersMenu from './OffersMenu';
-import staticoffers from '../static/data/offers.js';
+import CardDetails from './CardDetails';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
+import HomeNav from './HomeNav';
+import axios from 'axios';
 
 //should also route between CardGrid, CardDetails, Profile
 
@@ -11,33 +14,25 @@ export default class Home extends React.Component {
 
   constructor() {
     super();
+    var customer;
     this.state = {
-      recommendedOffers: staticoffers,
+      customer:''
     }
-  }
-
-  componentWillMount() {
-    //get all categories, get all merchant
-    //Call api to get recommendedOffers, All offers,
-    this.setState({
-      recommendedOffers: staticoffers
-    });
   }
 
   render() {
       return (
         <div>
           <MuiThemeProvider>
-            <OffersMenu/>
-            <Container>
-              <Row>
-                <Col>
-                  <OffersMenu/>
-                  <h3>Recommended Offers 4 U</h3>
-                  <CardGrid offers={this.state.recommendedOffers}/>
-                  </Col>
-                </Row>
-            </Container>
+              <div width="80%" align="left">
+                <HomeNav/>
+                <Switch>
+                <Route exact path='/Home/Dashboard' component={Dashboard} />
+                <Route exact path='/Home/Offers' component={CardGrid} />
+                <Route exact path='/Home/Offers/:offerId' component={CardDetails} />
+                <Route exact path='/Home/Profile' component={Profile} />
+                </Switch>
+              </div>
           </MuiThemeProvider>
         </div>
     );

@@ -1,0 +1,27 @@
+//Category 10
+db.category.insert({"categoryName" : "Travel", "subCategories": ["Bus / Cab Booking","Train","Hotels","Domestic Flight", "International Flight","Holiday Package"]});
+db.category.insert({"categoryName" : "Dining"});
+db.category.insert({"categoryName" : "Bill Payment", "subCategories": ["Mobile","Electricity","Internet","Water"]});
+db.category.insert({"categoryName" : "Grocery", "subCategories": ["Online","InStore"]});
+db.category.insert({"categoryName" : "Entertainment", "subCategories": ["Online","Movie"]});
+db.category.insert({"categoryName" : "Fashion & Accessiories", "subCategories": ["Online","InStore"]});
+db.category.insert({"categoryName" : "Beauty & Health", "subCategories": ["Online","InStore"]});
+db.category.insert({"categoryName" : "Gifting", "subCategories": ["Online","InStore"]});
+db.category.insert({"categoryName" : "Lifestyle", "subCategories": ["Online","InStore"]});
+db.category.insert({"categoryName" : "Electronics", "subCategories": ["Online","InStore"]});
+
+//Merchants 10
+//Banana Republic, Amazon, Apple online, Calvin Klein,  Dell Home online
+db.merchant.insert({"merchantName" : "Apple online",  "merchantCategories" : "Electronics", "merchantLogoLarge" : "apple_online_big.jpg",  "merchantLogoSmall" : "apple_online_small.jpg"});
+db.merchant.insert({"merchantName" : "Amazon",  "merchantCategories" : "Electronics", "merchantLogoLarge" : "amazon_big.jpg",  "merchantLogoSmall" : "amazon_small.jpg"});
+db.merchant.insert({"merchantName" : "Banana Republic",  "merchantCategories" : "Fashion", "merchantLogoLarge" : "banana_republic_large.jpg",  "merchantLogoSmall" : "banana_republic_small.jpg"});
+
+//Offers 20
+
+
+
+
+//Customers/Clients
+db.customer.insert({"cardNumber" : "Asd1234567890" , "customerType" : "admin" , "personalDetails" : {"emailId":"asd123@gmail.com" , "password":"test2017!","firstName":"Ashton", "middleName":"","lastName":"philip", "dob":ISODate("2017-11-16T00:00:00.000"), "gender":"M", "mobileNumber":"07896666668"}, "categoryPreferences":[{"categoryName" : "Electronics", "subCategories": ["Online","InStore"]},{"categoryName" : "Dining"}]});
+db.customer.insert({"cardNumber" : "Asd1234567890" , "customerType" : "merchant" , "personalDetails" : {"emailId":"asd123@gmail.com" , "password":"test2017!","firstName":"Amazon", "middleName":"","lastName":"Amazon", "dob":ISODate("2000-11-16T00:00:00.000"), "gender":"M", "mobileNumber":"07896666668"}});
+db.customer.insert({"cardNumber" : "Asd1234567890" , "customerType" : "merchant" , "personalDetails" : {"emailId":"asd123@gmail.com" , "password":"test2017!","firstName":"Baron", "middleName":"","lastName":"James", "dob":ISODate("1987-11-16T00:00:00.000"), "gender":"M", "mobileNumber":"07896666668"}, "categoryPreferences":[{"categoryName" : "Fashion"}]});

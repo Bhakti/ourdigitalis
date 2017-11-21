@@ -6,6 +6,7 @@ public class PersonalDetails {
 
 	private String emailId;
 
+	//remove me when you send to UI
 	private String password;
 
 	private String firstName;

@@ -13,6 +13,8 @@ public interface CustomerService {
 	List<Customer> getCustomers();
 
 	Customer getCustomerById(String customerId);
+	
+	Customer getCustomerProfileById(String customerId);
 
 	List<Category> getCustomerPreferences(String customerId);
 

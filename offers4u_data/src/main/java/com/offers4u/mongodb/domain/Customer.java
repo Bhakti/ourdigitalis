@@ -11,9 +11,12 @@ public class Customer {
 	@Id
 	private String id;
 
+	//needed in future....
 	private String accountNumber;
+	
+	private String cardNumber;
 
-	// Merchant(he gives offers), endCustomer(who avails deals)
+	// Merchant(he gives offers), client(who avails deals), admin
 	private String customerType;
 
 	private PersonalDetails personalDetails;
@@ -24,10 +27,14 @@ public class Customer {
 	// all 4 below when customerType is endCustomer
 	private List<Category> categoryPreferences;
 
+	//Lets not have this in customer -- not needed
 	private List<Segment> segments;
 
+	//let python code load this directly - as segment to offer is one to one.....
+	//segment is run every day once..
 	private List<RecommendedOffer> recommendedOffers;
 
+	//batch job will run every day for offers rolled out today and offers still on but last notifcation send 1 week ago - java code 
 	private List<Notification> notifications;
 
 	public String getId() {
@@ -44,6 +51,14 @@ public class Customer {
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 
 	public PersonalDetails getPersonalDetails() {
@@ -97,9 +112,9 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", customerType=" + customerType + ", accountNumber=" + accountNumber
-				+ ", personalDetails=" + personalDetails + ", categoryPreferences=" + categoryPreferences
-				+ ", segments=" + segments + ", recommendedOffers=" + recommendedOffers + ", notifications="
-				+ notifications + "]";
+				+ ", accountNumber=" + accountNumber + ", personalDetails=" + personalDetails + ", categoryPreferences="
+				+ categoryPreferences + ", segments=" + segments + ", recommendedOffers=" + recommendedOffers
+				+ ", notifications=" + notifications + "]";
 	}
 
 }

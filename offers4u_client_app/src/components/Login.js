@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 
 import axios from 'axios';
@@ -10,7 +11,6 @@ import axios from 'axios';
 export default class Login extends Component {
   constructor(props){
       super(props);
-
       this.state={
         username:'',
         password:''
@@ -36,7 +36,7 @@ export default class Login extends Component {
         <div width="60%" align="left">
           <MuiThemeProvider>
               <div width="60%" align="center">
-                  <AppBar  title="Login" />
+                  <AppBar  title="Login" iconElementLeft={<FlatButton label="" />}/>
                    <TextField
                      hintText="Enter your Username"
                      floatingLabelText="Username"

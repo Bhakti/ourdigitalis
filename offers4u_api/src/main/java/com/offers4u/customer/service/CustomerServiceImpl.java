@@ -31,6 +31,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findOne(customerId);
 	}
 
+	
+	@Override
+	public Customer getCustomerProfileById(String customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public List<Category> getCustomerPreferences(String customerId) {
 		return customerRepository.findOne(customerId).getCategoryPreferences();
@@ -105,6 +112,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
+		// TO DO
+		// Incomplete
 		if (customerId != null) {
 			//
 			Customer savedCustomer = customerRepository.findOne(customerId);
@@ -136,4 +145,5 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return false;
 	}
+
 }
