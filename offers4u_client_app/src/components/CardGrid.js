@@ -28,6 +28,7 @@ export default class CardGrid extends React.Component {
             this.setState({merchants:data})
       });
 
+      //call conditionally depending on params customerId, customerType, selectedCategoryName, selectedMerchantName
       Api.getOffers()
       .then(data => {
             this.setState({offers:data})

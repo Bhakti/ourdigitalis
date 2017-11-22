@@ -43,7 +43,7 @@ public class CustomerController {
 		return customerService.getCustomerById(customerId);
 	}
 
-	@RequestMapping(value = "/offers/{customerId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@RequestMapping(value = "/{customerId}/offers", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
 	@ResponseBody
 	public List<RecommendedOffer> getCustomerOffer(@PathVariable("customerId") String customerId,
 			@RequestParam(name = "category", required = false) String categoryName,
@@ -79,6 +79,7 @@ public class CustomerController {
 
 	// Add rest api to update notifications
 
-	// Add rest api to update offers
+	// Add rest api to update offers, segment -- python side 
 
+	// Add rest api to update recommended offer click - interest shown
 }

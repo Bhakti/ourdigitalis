@@ -4,9 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-
-
-import axios from 'axios';
+import * as Api from "../services/Api";
 
 export default class Login extends Component {
   constructor(props){
@@ -26,7 +24,12 @@ export default class Login extends Component {
       "role":this.state.loginRole
     }
     //call backend MuiThemeProvider
-    //TODO
+
+    Api.loginUser(payload)
+    .then(data => {
+          this.setState({categories:data})
+    });
+
     console.log("Login successfull");
 
   }

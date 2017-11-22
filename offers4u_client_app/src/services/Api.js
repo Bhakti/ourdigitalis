@@ -9,14 +9,11 @@ let appAccessToken = "";
 let userAccessToken = "";
 
 
-export function loginUser(username, password) {
+export function loginUser(payload) {
   return axiosInstance
     .post(
       "login",
-      qs.stringify({
-        username: username,
-        password: password
-      }),
+      qs.stringify(payload),
       {
         headers: {
           "content-type": "application/x-www-form-urlencoded"
@@ -89,7 +86,11 @@ export function getClientNotifications(customerId){
 }
 
 
-export function getMerchantOffers(merchantName){
+export function getCategoryMerchantOffers(categoryName, merchantName){
+    var url = 'offers?merchant=${merchantName}';
+    if(categoryName!==null) {
+        url = url + '&category=${categoryName}'
+    }
     return axiosInstance.get('offers?merchant=${merchantName}')
     .then(response => response.data);
 }
@@ -100,8 +101,14 @@ export function getOffers() {
     .then(response => response.data);
 }
 
-export function getOffers(offerId) {
+export function getOffersById(offerId) {
   return axiosInstance
-    .get('offers/'+userId)
+    .get('offers/'+offerId)
+    .then(response => response.data);
+}
+
+export function getReports(offerId) {
+  return axiosInstance
+    .get('reports')
     .then(response => response.data);
 }

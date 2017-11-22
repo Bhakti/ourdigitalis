@@ -5,8 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 import FlatButton from 'material-ui/FlatButton';
-
-import axios from 'axios';
+import * as Api from "../services/Api";
 
 class Register extends Component {
   constructor(props){

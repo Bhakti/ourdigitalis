@@ -3,7 +3,6 @@ import { Card, Button,  CardTitle, CardText,  CardSubtitle, CardBody, CardHeader
 import { Container, Row, Col } from 'reactstrap';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
-import axios from 'axios';
 
 export default class CardDetails extends React.Component {
   constructor() {
@@ -15,14 +14,15 @@ export default class CardDetails extends React.Component {
   }
 
   componentWillMount() {
-
-    var localOffers = this.props.route.offers;
-
-    console.log(localOffers);
+    //issue -- we need offer else by offer id we can get offer here...
 
     var id = this.props.params.offerId;
 
     console.log(id);
+
+    var localOffers = this.props.route;
+
+    console.log(this.props.route);
 
     var offer = localOffers.filter(offer => {
             if(offer.id === id) {
