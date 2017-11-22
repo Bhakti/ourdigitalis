@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import {
   Table,
   TableBody,
@@ -8,7 +9,8 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import HomeNav from './HomeNav';
+import { Link } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 const styles = {
   propContainer: {
@@ -19,6 +21,10 @@ const styles = {
   propToggleHeader: {
     margin: '20px auto 10px',
   },
+};
+
+const iconStyles = {
+  marginRight: 24,
 };
 
 const tableData = [
@@ -59,7 +65,7 @@ export default class TableExampleComplex extends Component {
   state = {
     fixedHeader: true,
     fixedFooter: true,
-    stripedRows: false,
+    stripedRows: true,
     showRowHover: false,
     selectable: true,
     multiSelectable: false,
@@ -81,60 +87,68 @@ export default class TableExampleComplex extends Component {
 
   render() {
     return (
-      <div>
-        <HomeNav/>
-        <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
-        >
-          <TableHeader
-            displaySelectAll={this.state.showCheckboxes}
-            adjustForCheckbox={this.state.showCheckboxes}
-            enableSelectAll={this.state.enableSelectAll}
-          >
-            <TableRow>
-              <TableHeaderColumn colSpan="3" tooltip="Offer Statistics" style={{textAlign: 'center'}}>
-                Offers Statistics
-              </TableHeaderColumn>
-            </TableRow>
-            <TableRow>
-              <TableHeaderColumn tooltip="Name">Name</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Type">Type</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Merchant">Merchant</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Category">Category</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Segment">Segment</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Total Offers Rolled Out">Rolled Out</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Total Offers Showed Interest">Interested</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Total Offers Availed">Availed</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody
-            displayRowCheckbox={this.state.showCheckboxes}
-            deselectOnClickaway={this.state.deselectOnClickaway}
-            showRowHover={this.state.showRowHover}
-            stripedRows={this.state.stripedRows}
-          >
-            {tableData.map( (row, index) => (
-              <TableRow key={index}>
-                <TableRowColumn>{row.name}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-              </TableRow>
-              ))}
-          </TableBody>
-          <TableFooter
-            adjustForCheckbox={this.state.showCheckboxes}
-          >
-          </TableFooter>
-        </Table>
+      <div width="80%" align="left">
+        <Breadcrumb>
+          <BreadcrumbItem><a href="/Home/Offers">Home</a></BreadcrumbItem>
+          <BreadcrumbItem active>Dashboard</BreadcrumbItem>
+        </Breadcrumb>
+        <Container>
+            <Row>
+              <Col>
+                  <Table
+                    height={this.state.height}
+                    fixedHeader={this.state.fixedHeader}
+                    fixedFooter={this.state.fixedFooter}
+                    selectable={this.state.selectable}
+                    multiSelectable={this.state.multiSelectable}
+                  >
+                    <TableHeader
+                      displaySelectAll={this.state.showCheckboxes}
+                      adjustForCheckbox={this.state.showCheckboxes}
+                      enableSelectAll={this.state.enableSelectAll}
+                    >
+                      <TableRow>
+                        <TableHeaderColumn colSpan="3" tooltip="Offer Statistics" style={{textAlign: 'center'}}>
+                          Offers Statistics
+                        </TableHeaderColumn>
+                      </TableRow>
+                      <TableRow>
+                        <TableHeaderColumn tooltip="Name">Name</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Type">Type</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Merchant">Merchant</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Category">Category</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Total Offers Rolled Out">Rolled Out</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Total Offers Showed Interest">Interested</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="Total Offers Availed">Availed</TableHeaderColumn>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody
+                      displayRowCheckbox={this.state.showCheckboxes}
+                      deselectOnClickaway={this.state.deselectOnClickaway}
+                      showRowHover={this.state.showRowHover}
+                      stripedRows={this.state.stripedRows}
+                    >
+                      {tableData.map( (row, index) => (
+                        <TableRow key={index}>
+                          <TableRowColumn>{row.name}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                          <TableRowColumn>{row.status}</TableRowColumn>
+                        </TableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter
+                      adjustForCheckbox={this.state.showCheckboxes}
+                    >
+                    </TableFooter>
+                  </Table>
+                </Col>
+              </Row>
+          </Container>
       </div>
     );
   }

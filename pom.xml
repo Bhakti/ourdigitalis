@@ -25,6 +25,7 @@
 
     <modules>
         <module>offers4u_data</module>
+		<module>offers4u_notification_engine</module>
         <module>offers4u_api</module>
     </modules>
 

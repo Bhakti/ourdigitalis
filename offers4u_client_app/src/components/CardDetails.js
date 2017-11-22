@@ -3,36 +3,34 @@ import { Card, Button,  CardTitle, CardText,  CardSubtitle, CardBody, CardHeader
 import { Container, Row, Col } from 'reactstrap';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
+import * as Api from "../services/Api";
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 export default class CardDetails extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-     offer:'',
-     divContent:''
-   }
+  constructor(props) {
+      super(props);
+      console.log(this.props);
+      this.state = {
+        offer:'',
+        divContent:''
+      }
   }
 
   componentWillMount() {
     //issue -- we need offer else by offer id we can get offer here...
+    console.log(this.props.match.params);
 
-    var id = this.props.params.offerId;
-
-    console.log(id);
-
-    var localOffers = this.props.route;
-
-    console.log(this.props.route);
-
-    var offer = localOffers.filter(offer => {
-            if(offer.id === id) {
-                return offer;
+    Api.getOffersById(this.props.match.params.offerId)
+    .then(data => {
+          console.log(data);
+          this.setState(
+            {
+              offer:data,
+              divContent: data.offerDetails
             }
-        });
-
-    this.setState({
-      divContent: offer.offerDetails
+          )
     });
+
   }
 
   handleClick1(event){
@@ -50,23 +48,27 @@ export default class CardDetails extends React.Component {
   render() {
       return (
         <div width="80%" align="left">
+        <Breadcrumb>
+          <BreadcrumbItem><a href="/Home/Offers">Home</a></BreadcrumbItem>
+          <BreadcrumbItem><a href="/Home/Offers">Offers</a></BreadcrumbItem>
+          <BreadcrumbItem active>{this.state.offer.id}</BreadcrumbItem>
+        </Breadcrumb>
           <Container>
           <Row>
               <Col xs="4">
-                <Card body inverse color="primary">
+                <Card>
                   <CardHeader>
-                    <img width="50%" src={this.props.offer.merchant.merchantLogoSmall}  alt="{this.props.offer.merchant.merchantName}" />
-                    <p class="offerTag"><span>{this.props.offer.offerType}</span></p>
+                    <img width="50%"/>
+                    <p className="offerTag"><span></span></p>
                   </CardHeader>
                   <CardBody>
-                  <CardTitle>{this.props.offer.name}</CardTitle>
-                    <CardSubtitle>{this.props.offer.merchant.merchantName}</CardSubtitle>
-                    <CardText>{this.props.offer.description}
-                    </CardText>
-                    <Button primary="true" class="offerShowDetails">Grab Me</Button>
+                  <CardTitle>{this.state.offer.name}</CardTitle>
+                    <CardSubtitle></CardSubtitle>
+                    <CardText>{this.state.offer.description}</CardText>
+                    <Button primary="true" className="offerShowDetails">Grab Me</Button>
                   </CardBody>
                   <CardFooter>
-                    <h6>Expires on : {this.props.offer.endDate}</h6>
+                    <h6>Expires on : {this.state.offer.endDate}</h6>
                   </CardFooter>
                 </Card>
               </Col>

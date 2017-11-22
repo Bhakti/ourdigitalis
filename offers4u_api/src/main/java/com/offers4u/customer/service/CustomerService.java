@@ -14,6 +14,8 @@ public interface CustomerService {
 
 	Customer getCustomerById(String customerId);
 	
+	Customer getCustomerByCardNumber(String customerId);
+	
 	Customer getCustomerProfileById(String customerId);
 
 	List<Category> getCustomerPreferences(String customerId);

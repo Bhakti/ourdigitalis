@@ -4,11 +4,21 @@ import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 
 export default class OfferCard extends React.Component {
+
+  constructor(props) {
+      super(props);
+      console.log("Check Me -----");
+      console.log(this.props);
+      this.state = {
+        offer:this.props.offer
+      }
+  }
+
   render() {
     return (
-        <Card body inverse color="primary">
+        <Card body>
           <CardHeader>
-            <img width="50%" src={this.props.offer.merchant.merchantLogoSmall}  alt="{this.props.offer.merchant.merchantName}" />
+            <img width="50%" src={this.props.offer.merchant.merchantLogoSmall}  alt="Image" />
             <p className="offerTag"><span>{this.props.offer.offerType}</span></p>
           </CardHeader>
           <CardBody>

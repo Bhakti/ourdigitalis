@@ -19,10 +19,9 @@ const Logged = (props) => (
         <Link to={"/Home/Profile/"}>
             Profile
         </Link>
-
     </MenuItem>
     <MenuItem primaryText="Help" />
-    <MenuItem primaryText="Sign out" />
+    <MenuItem name="logout" onClick={(event) => this.handleLogout(event)}/>
   </IconMenu>
 );
 
@@ -33,11 +32,15 @@ Logged.muiName = 'IconMenu';
  * to render different components depending on the application state.
  */
 class AppHeader extends Component {
+  handleLogout(event) {
+    console.log("logout");
+  }
+
   render() {
+    console.log(' header this.props.hasLogin');
+    console.log(this.props.hasLogin);
     return (
       <div>
-        <Link to={'/Home/Dashboard'}>Temp Home</Link>
-        <Link to={'/Login'}>Temp Login</Link>
         <AppBar
           title="Digitalis"
           iconElementRight={this.props.hasLogin ? <Logged /> : <p></p>}

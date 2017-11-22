@@ -17,12 +17,12 @@ export default class Landing extends Component {
     loginButtons.push(
       <div>
       <MuiThemeProvider>
-        <div>
+        <div align="center">
            <RaisedButton label={"Register as Customer"} primary={true} style={style} onClick={(event) => this.handleClick(event,'customer')}/>
        </div>
        </MuiThemeProvider>
        <MuiThemeProvider>
-       <div>
+       <div align="center">
           <RaisedButton label={"Register as Merchant"} primary={true} style={style} onClick={(event) => this.handleClick(event,'merchant')}/>
       </div>
       </MuiThemeProvider>
@@ -36,7 +36,8 @@ export default class Landing extends Component {
       loginButtons:loginButtons,
       customerbuttonLabel:'Register as Customer',
       merchantbuttonLabel:'Register as Merchant',
-      isLogin:true
+      isLogin:true,
+      hasLogin:false
     }
   }
   componentWillMount(){
@@ -48,6 +49,7 @@ export default class Landing extends Component {
                   loginmessage:loginmessage
                     })
   }
+
   handleClick(event,userRole){
     console.log("event",userRole);
     var loginmessage;
@@ -113,7 +115,7 @@ export default class Landing extends Component {
                   <CardBody>
                     <div className="loginscreen">
                       {this.state.loginscreen}
-                      <div>
+                      <div aligin="center">
                         {this.state.loginmessage}
                         {this.state.loginButtons}
                       </div>

@@ -10,18 +10,21 @@ let userAccessToken = "";
 
 
 export function loginUser(payload) {
+  console.log(payload);
+  console.log(qs.stringify(payload));
+
   return axiosInstance
     .post(
       "login",
-      qs.stringify(payload),
+      payload,
       {
         headers: {
-          "content-type": "application/x-www-form-urlencoded"
+          "content-type": "application/json"
         }
       }
     )
     .then(response => {
-      userAccessToken = response.data.access_token;
+      userAccessToken = response.data;
       return userAccessToken;
     });
 }
@@ -46,19 +49,19 @@ export function registerUser(customer, token) {
 //all
 export function getCategories(){
     return axiosInstance.get('categories')
-    .then(response => response.data._embedded.categories);
+    .then(response => response.data);
 }
 
 //all
 export function getMerchants(){
     return axiosInstance.get('merchants')
-    .then(response => response.data._embedded.merchants);
+    .then(response => response.data);
 }
 
 //all
 export function getCustomers(){
     return axiosInstance.get('customers')
-    .then(response => response.data._embedded.customers);
+    .then(response => response.data);
 }
 
 //one

@@ -30,6 +30,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer getCustomerById(String customerId) {
 		return customerRepository.findOne(customerId);
 	}
+	
+	@Override
+	public Customer getCustomerByCardNumber(String cardNumber) {
+		return customerRepository.findByCardNumber(cardNumber);
+	}
 
 	
 	@Override

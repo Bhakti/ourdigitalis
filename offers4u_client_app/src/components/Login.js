@@ -10,28 +10,33 @@ export default class Login extends Component {
   constructor(props){
       super(props);
       this.state={
-        username:'',
-        password:''
-    }
+          username:'',
+          password:'',
+          role:'',
+          error:false
+        }
    }
 
    handleClick(event){
-    var apiBaseUrl = "http://localhost:8080/api/v1";
-    var self = this;
+    const { history } = this.props.parentContext.props;
+    const { username, password } = this.state;
+    this.setState({ error: false });
     var payload={
-      "userid":this.state.username,
-	    "password":this.state.password,
-      "role":this.state.loginRole
+      "cardNumber":this.state.username,
+	    "password":this.state.password
     }
     //call backend MuiThemeProvider
-
+    if ((username === '' || password === '')) {
+      return this.setState({ error: true });
+    }
+    
     Api.loginUser(payload)
     .then(data => {
-          this.setState({categories:data})
+          console.log(data);
+          history.push("/Home/Offers");
+          this.props.parentContext.props.actionPostLoginSuccess(data);
+          console.log("Login successfull");
     });
-
-    console.log("Login successfull");
-
   }
 
   render() {
@@ -41,8 +46,8 @@ export default class Login extends Component {
               <div width="60%" align="center">
                   <AppBar  title="Login" iconElementLeft={<FlatButton label="" />}/>
                    <TextField
-                     hintText="Enter your Username"
-                     floatingLabelText="Username"
+                     hintText="Enter your Card Number"
+                     floatingLabelText="CardNumber"
                      onChange = {(event,newValue) => this.setState({username:newValue})}
                      />
                    <br/>

@@ -18,7 +18,16 @@ public class RecommendedOffer {
 	private String rollOutType;
 
 	private Date rollOutDate;
+	
+	private Date clickedDate;
+	
+	private Date availedDate;
+	
+	private boolean isRecommended;
 
+	// null, Interested, Availed
+	private String result;
+	
 	private String comment;
 
 	private String rating;
@@ -26,8 +35,6 @@ public class RecommendedOffer {
 	@Transient
 	private String avgRating;
 
-	// null, Interested, Availed
-	private String result;
 
 	public Offer getOffer() {
 		return offer;
