@@ -15,19 +15,17 @@ public class RecommendedOffer {
 
 	private Offer offer;
 
-	private String rollOutType;
-
 	private Date rollOutDate;
-	
+
 	private Date clickedDate;
-	
+
 	private Date availedDate;
-	
+
 	private boolean isRecommended;
 
 	// null, Interested, Availed
 	private String result;
-	
+
 	private String comment;
 
 	private String rating;
@@ -35,21 +33,12 @@ public class RecommendedOffer {
 	@Transient
 	private String avgRating;
 
-
 	public Offer getOffer() {
 		return offer;
 	}
 
 	public void setOffer(Offer offer) {
 		this.offer = offer;
-	}
-
-	public String getRollOutType() {
-		return rollOutType;
-	}
-
-	public void setRollOutType(String rollOutType) {
-		this.rollOutType = rollOutType;
 	}
 
 	public Date getRollOutDate() {
@@ -92,11 +81,35 @@ public class RecommendedOffer {
 		this.result = result;
 	}
 
+	public Date getClickedDate() {
+		return clickedDate;
+	}
+
+	public void setClickedDate(Date clickedDate) {
+		this.clickedDate = clickedDate;
+	}
+
+	public Date getAvailedDate() {
+		return availedDate;
+	}
+
+	public void setAvailedDate(Date availedDate) {
+		this.availedDate = availedDate;
+	}
+
+	public boolean isRecommended() {
+		return isRecommended;
+	}
+
+	public void setRecommended(boolean isRecommended) {
+		this.isRecommended = isRecommended;
+	}
+
 	@Override
 	public String toString() {
-		return "RecommendedOffer [offer=" + offer + ", rollOutType=" + rollOutType + ", rollOutDate=" + rollOutDate
-				+ ", comment=" + comment + ", rating=" + rating + ", avgRating=" + avgRating + ", result=" + result
-				+ "]";
+		return "RecommendedOffer [offer=" + offer.toString() + ", rollOutDate=" + rollOutDate + ", clickedDate=" + clickedDate
+				+ ", availedDate=" + availedDate + ", isRecommended=" + isRecommended + ", result=" + result
+				+ ", comment=" + comment + ", rating=" + rating + ", avgRating=" + avgRating + "]";
 	}
 
 }

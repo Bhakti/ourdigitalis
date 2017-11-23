@@ -11,7 +11,6 @@ import com.offers4u.mongodb.domain.Category;
 import com.offers4u.mongodb.domain.Customer;
 import com.offers4u.mongodb.domain.Notification;
 import com.offers4u.mongodb.domain.RecommendedOffer;
-import com.offers4u.mongodb.domain.Segment;
 import com.offers4u.mongodb.repository.CustomerRepository;
 
 @Service("customerService")
@@ -30,27 +29,21 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer getCustomerById(String customerId) {
 		return customerRepository.findOne(customerId);
 	}
-	
+
 	@Override
 	public Customer getCustomerByCardNumber(String cardNumber) {
 		return customerRepository.findByCardNumber(cardNumber);
 	}
 
-	
 	@Override
 	public Customer getCustomerProfileById(String customerId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public List<Category> getCustomerPreferences(String customerId) {
 		return customerRepository.findOne(customerId).getCategoryPreferences();
-	}
-
-	@Override
-	public List<Segment> getCustomerSegments(String customerId) {
-		return customerRepository.findOne(customerId).getSegments();
 	}
 
 	@Override
@@ -82,11 +75,31 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public boolean updateCustomerSegments(String customerId, List<Segment> segments) {
+	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
+		// TO DO
+		// Incomplete
+		if (customerId != null) {
+			//
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			//
+			if (savedCustomer != null) {
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCustomerNotifications(String customerId, List<Notification> notifications) {
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
-				savedCustomer.setSegments(segments);
+				savedCustomer.setNotifications(notifications);
 				savedCustomer = customerRepository.save(savedCustomer);
 				if (savedCustomer != null) {
 					return true;
@@ -116,36 +129,27 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
-		// TO DO
-		// Incomplete
+	public boolean availedOffer(String customerId, String offerId) {
+		boolean flag = false;
 		if (customerId != null) {
-			//
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
-				savedCustomer = customerRepository.save(savedCustomer);
-				if (savedCustomer != null) {
-					return true;
-				} else {
-					return false;
+				for (RecommendedOffer recommendedOffer : savedCustomer.getRecommendedOffers()) {
+					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
+						
+					}
 				}
 			}
 		}
-		return false;
+		return flag;
 	}
 
 	@Override
-	public boolean updateCustomerNotifications(String customerId, List<Notification> notifications) {
+	public boolean clickedOffer(String customerId, String offerId) {
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
-				savedCustomer.setNotifications(notifications);
-				savedCustomer = customerRepository.save(savedCustomer);
-				if (savedCustomer != null) {
-					return true;
-				} else {
-					return false;
-				}
+
 			}
 		}
 		return false;

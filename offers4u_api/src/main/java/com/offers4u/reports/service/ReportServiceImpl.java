@@ -39,6 +39,7 @@ public class ReportServiceImpl implements ReportService {
 			offers = offerRepository.findAll();
 		}
 
+		
 		if (offers != null) {
 			for (Offer offer : offers) {
 				OfferReport offerReport = new OfferReport();
@@ -47,18 +48,18 @@ public class ReportServiceImpl implements ReportService {
 				int totalAvailed = 0;
 
 				offerReport.setOffer(offer);
-				List<Customer> lstCust = customerRepository.findCustomerIdByRecommendedOfferId(offer.getId());
+				List<Customer> lstCust = customerRepository.findCustomerIdByRecommendedOfferId(offer.getOfferId());
 				if (lstCust != null) {
 					totalRollOuts = lstCust.size();
 				}
 
 				List<Customer> lstCustIn = customerRepository
-						.findCustomerIdByRecommendedOfferIdInterested(offer.getId());
+						.findCustomerIdByRecommendedOfferIdInterested(offer.getOfferId());
 				if (lstCustIn != null) {
 					totalInterested = lstCustIn.size();
 				}
 
-				List<Customer> lstCustAv = customerRepository.findCustomerIdByRecommendedOfferIdAvailed(offer.getId());
+				List<Customer> lstCustAv = customerRepository.findCustomerIdByRecommendedOfferIdAvailed(offer.getOfferId());
 				if (lstCustAv != null) {
 					totalAvailed = lstCustAv.size();
 				}
@@ -66,8 +67,12 @@ public class ReportServiceImpl implements ReportService {
 				offerReport.setTotalAvailed(totalAvailed);
 				offerReport.setTotalInterested(totalInterested);
 				offerReport.setTotalRollOuts(totalRollOuts);
+				//
+				offerReports.add(offerReport);
+				//
 			}
 		}
+		System.out.println(offerReports.toString());
 		return offerReports;
 	}
 

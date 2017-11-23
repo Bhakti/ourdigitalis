@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button,  CardTitle, CardText,  CardSubtitle, CardBody, CardHeader, CardFooter } from 'reactstrap';
+import { CardLink, Card,  Button, CardTitle, CardText,CardBody, CardHeader, CardFooter } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
@@ -10,15 +10,18 @@ export default class CardDetails extends React.Component {
   constructor(props) {
       super(props);
       console.log(this.props);
+      this.availOffer = this.availOffer.bind(this);
       this.state = {
         offer:'',
-        divContent:''
+        divContent:'',
+        imgSrc:null,
+        homeUrl:''
       }
   }
 
   componentWillMount() {
-    //issue -- we need offer else by offer id we can get offer here...
-    console.log(this.props.match.params);
+    console.log(this.props);
+    this.setState({homeUrl:"/Home/"+this.props.data.loggedInUser+"/Offer"});
 
     Api.getOffersById(this.props.match.params.offerId)
     .then(data => {
@@ -26,49 +29,55 @@ export default class CardDetails extends React.Component {
           this.setState(
             {
               offer:data,
-              divContent: data.offerDetails
+              divContent: data.offerDetails,
+              imgSrc: require('../static/images/merchants/'+data.merchant.merchantLogoSmall),
+              homeUrl: "/Home/"+this.props.data.loggedInUser+"/Offer"
             }
           )
     });
-
   }
 
   handleClick1(event){
     this.setState({
-      divContent: 'this.props.offer.offerDetail'
+      divContent: this.state.offer.offerDetails
     });
   }
 
   handleClick2(event){
     this.setState({
-      divContent: 'this.props.offer.tAndC'
+      divContent: this.state.offer.tAndC
     });
+  }
+
+  availOffer(event){
+      //Write code to availOffer
   }
 
   render() {
       return (
         <div width="80%" align="left">
         <Breadcrumb>
-          <BreadcrumbItem><a href="/Home/Offers">Home</a></BreadcrumbItem>
-          <BreadcrumbItem><a href="/Home/Offers">Offers</a></BreadcrumbItem>
+          <BreadcrumbItem><a href={this.state.homeUrl}>Home</a></BreadcrumbItem>
+          <BreadcrumbItem><a href={this.state.homeUrl}>Offers</a></BreadcrumbItem>
           <BreadcrumbItem active>{this.state.offer.id}</BreadcrumbItem>
         </Breadcrumb>
           <Container>
           <Row>
               <Col xs="4">
-                <Card>
-                  <CardHeader>
-                    <img width="50%"/>
-                    <p className="offerTag"><span></span></p>
-                  </CardHeader>
+                <Card body>
+                  <CardHeader><div width="100%" align="right">{this.state.offer.offerType}</div></CardHeader>
+                  <img width="50%" src={this.state.imgSrc} alt=""/>
                   <CardBody>
-                  <CardTitle>{this.state.offer.name}</CardTitle>
-                    <CardSubtitle></CardSubtitle>
+                    <CardTitle>{this.state.offer.name}</CardTitle>
                     <CardText>{this.state.offer.description}</CardText>
-                    <Button primary="true" className="offerShowDetails">Grab Me</Button>
+                    <div width="100%" align="right">
+                    <Button color="warning" onClick={(event) => this.availOffer(event)}>
+                        Grab Me
+                    </Button>
+                    </div>
                   </CardBody>
-                  <CardFooter>
-                    <h6>Expires on : {this.state.offer.endDate}</h6>
+                  <CardFooter className="text-muted">
+                    Expires on {this.state.offer.endDate}
                   </CardFooter>
                 </Card>
               </Col>

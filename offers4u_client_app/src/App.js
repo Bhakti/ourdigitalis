@@ -5,7 +5,7 @@ import AppHeader from './components/AppHeader';
 import Landing from './components/Landing';
 import CardGrid from './components/CardGrid';
 import CardDetails from './components/CardDetails';
-import Dashboard from './components/Dashboard';
+import OfferStatisticsDashboard from './components/OfferStatisticsDashboard';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import * as Api from "./services/Api";
@@ -14,6 +14,7 @@ export default class App extends Component {
 
   constructor(props) {
       super(props);
+      console.log(this.props);
       this.handlerPostLoginSuccess = this.handlerPostLoginSuccess.bind(this)
       this.handlerPostLogoutSuccess = this.handlerPostLogoutSuccess.bind(this)
       this.getOffers = this.getOffers.bind(this)
@@ -24,30 +25,13 @@ export default class App extends Component {
         customer:null,
         categories: [],
         merchants:[],
-        offers:[]
+        offers:[],
+        recommendedOffers:[]
       }
-
-      Api.getCategories()
-      .then(data => {
-            this.setState({categories:data})
-      });
-
-      Api.getMerchants()
-      .then(data => {
-            this.setState({merchants:data})
-      });
   }
 
   componentDidMount() {
-      Api.getCategories()
-      .then(data => {
-            this.setState({categories:data})
-      });
-
-      Api.getMerchants()
-      .then(data => {
-            this.setState({merchants:data})
-      });
+    console.log(this.props);
   }
 
   handlerPostLoginSuccess(customerId) {
@@ -56,39 +40,37 @@ export default class App extends Component {
        hasLogin:true,
        loggedInUser: customerId
      })
-
-     //call conditionally depending on params customerId, customerType, selectedCategoryName, selectedMerchantName
-     Api.getCustomer(this.state.loggedInUser)
-     .then(data => {
-           this.setState({customer:data})
-           this.getOffers();
-     });
+     if(this.state.loggedInUser) {
+         Api.getCustomer(this.state.loggedInUser)
+         .then(data => {
+              this.setState({customer:data})
+              if(data) {
+                  this.getOffers();
+              } else {
+                console.log("customer not found");
+              }
+         });
+     } else {
+       console.log("Not Logged In");
+     }
   }
 
   getOffers() {
     console.log(this.state.customer);
     //call conditionally depending on params customerId, customerType, selectedCategoryName, selectedMerchantName
-    /*if(this.state.customer.customerType === 'admin') {
+    if(this.state.customer.customerType === 'admin') {
       Api.getOffers()
       .then(data => {
             this.setState({offers:data})
       });
     } else if(this.state.customer.customerType === 'merchant') {
-      Api.getCategoryMerchantOffers(customerId)
+      Api.getCategoryMerchantOffers(this.state.customer.name)
       .then(data => {
             this.setState({offers:data})
       });
     } else {
-      Api.getClientOffers(customerId)
-      .then(data => {
-            this.setState({offers:data})
-      });
-    }*/
-    Api.getOffers()
-    .then(data => {
-          this.setState({offers:data})
-    });
-    console.log(this.state.offers);
+      this.setState({recommendedOffers:this.state.customer.recommendedOffers})
+    }
   }
 
   handlerPostLogoutSuccess() {
@@ -100,12 +82,12 @@ export default class App extends Component {
 
   render() {
       return (
-          <Router>
+          <Router >
               <div>
                 <MuiThemeProvider>
                   <div width="80%" align="left">
                       <br/>
-                      <AppHeader hasLogin={this.state.hasLogin}/>
+                      <AppHeader hasLogin={this.state.hasLogin} actionPostLogoutSuccess="{this.handlerPostLogoutSuccess}"/>
                       <br/>
                       <Switch>
                          <Route exact path='/' render={(props) => (
@@ -117,14 +99,14 @@ export default class App extends Component {
                          )}/>
 
                          <Route exact path='/Logout' component={Login}
-                            parentContext={this} handler = {this.handlerPostLogoutSuccess}/>
+                            parentContext={this} handler={this.handlerPostLogoutSuccess}/>
 
-                         <Route exact path='/Home/Dashboard' render={(props) => (
-                            <Dashboard {...props} data={this.state}/>
+                         <Route exact path='/Home/OfferStatisticsDashboard' render={(props) => (
+                            <OfferStatisticsDashboard {...props} data={this.state}/>
                          )}/>
 
-                         <Route exact path='/Home/Offers' render={(props) => (
-                              <CardGrid {...props} data={this.state}/>
+                         <Route exact path='/Home/:customerId/Offers' render={(props) => (
+                              <CardGrid {...props} data={this.state} />
                          )}/>
 
                          <Route exact path='/Home/Offers/:offerId' render={(props) => (
@@ -143,3 +125,6 @@ export default class App extends Component {
     );
   }
 }
+
+
+withRouter(App);

@@ -11,9 +11,9 @@ public class Customer {
 	@Id
 	private String id;
 
-	//needed in future....
+	// needed in future....
 	private String accountNumber;
-	
+
 	private String cardNumber;
 
 	// Merchant(he gives offers), client(who avails deals), admin
@@ -23,18 +23,15 @@ public class Customer {
 
 	// when customerType is merchant
 	// Merchant merchant;
-
 	// all 4 below when customerType is endCustomer
 	private List<Category> categoryPreferences;
 
-	//Lets not have this in customer -- not needed
-	private List<Segment> segments;
+	private List<CategoryData> categoryData;
 
-	//let python code load this directly - as segment to offer is one to one.....
-	//segment is run every day once..
 	private List<RecommendedOffer> recommendedOffers;
 
-	//batch job will run every day for offers rolled out today and offers still on but last notifcation send 1 week ago - java code 
+	// batch job will run every day for offers rolled out today and offers still on
+	// but last notifcation send 1 week ago - java code
 	private List<Notification> notifications;
 
 	public String getId() {
@@ -77,20 +74,20 @@ public class Customer {
 		this.categoryPreferences = categoryPreferences;
 	}
 
-	public List<Segment> getSegments() {
-		return segments;
-	}
-
-	public void setSegments(List<Segment> segments) {
-		this.segments = segments;
-	}
-
 	public List<RecommendedOffer> getRecommendedOffers() {
 		return recommendedOffers;
 	}
 
 	public void setRecommendedOffers(List<RecommendedOffer> recommendedOffers) {
 		this.recommendedOffers = recommendedOffers;
+	}
+
+	public List<CategoryData> getCategoryData() {
+		return categoryData;
+	}
+
+	public void setCategoryData(List<CategoryData> categoryData) {
+		this.categoryData = categoryData;
 	}
 
 	public List<Notification> getNotifications() {
@@ -113,8 +110,8 @@ public class Customer {
 	public String toString() {
 		return "Customer [id=" + id + ", customerType=" + customerType + ", accountNumber=" + accountNumber
 				+ ", accountNumber=" + accountNumber + ", personalDetails=" + personalDetails + ", categoryPreferences="
-				+ categoryPreferences + ", segments=" + segments + ", recommendedOffers=" + recommendedOffers
-				+ ", notifications=" + notifications + "]";
+				+ categoryPreferences + ", recommendedOffers=" + recommendedOffers + ", notifications=" + notifications
+				+ "]";
 	}
 
 }

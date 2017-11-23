@@ -1,6 +1,7 @@
 import React, {PropTypes} from "react"
 import {Route} from "react-router-dom"
 
+//Not used
 export default class AuthenticatedRoute extends React.Component {
   render() {
     if (!this.props.isLoggedIn) {

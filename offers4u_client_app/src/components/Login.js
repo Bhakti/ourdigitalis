@@ -17,6 +17,10 @@ export default class Login extends Component {
         }
    }
 
+   componentDidMount() {
+
+   }
+
    handleClick(event){
     const { history } = this.props.parentContext.props;
     const { username, password } = this.state;
@@ -29,13 +33,15 @@ export default class Login extends Component {
     if ((username === '' || password === '')) {
       return this.setState({ error: true });
     }
-    
+
     Api.loginUser(payload)
     .then(data => {
-          console.log(data);
-          history.push("/Home/Offers");
-          this.props.parentContext.props.actionPostLoginSuccess(data);
-          console.log("Login successfull");
+          if(data) {
+            console.log(data);
+            history.push("/Home/"+data+"/Offers/");
+            this.props.parentContext.props.actionPostLoginSuccess(data);
+            console.log("Login successfull");
+          }
     });
   }
 

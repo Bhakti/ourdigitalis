@@ -6,9 +6,15 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-const Logged = (props) => (
+class Logged extends React.Component  {
+  handleLogout(event) {
+    console.log("logout");
+    //TODO logout remove from session.
+  }
+
+  render() {
+    return (
   <IconMenu
-    {...props}
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
     }
@@ -21,9 +27,15 @@ const Logged = (props) => (
         </Link>
     </MenuItem>
     <MenuItem primaryText="Help" />
-    <MenuItem name="logout" onClick={(event) => this.handleLogout(event)}/>
+    <MenuItem>
+      <Link to={"/Login/"}>
+          Logout
+      </Link>
+    </MenuItem>
   </IconMenu>
 );
+}
+}
 
 Logged.muiName = 'IconMenu';
 
@@ -37,8 +49,6 @@ class AppHeader extends Component {
   }
 
   render() {
-    console.log(' header this.props.hasLogin');
-    console.log(this.props.hasLogin);
     return (
       <div>
         <AppBar

@@ -14,6 +14,8 @@ public class Offer {
 	@Id
 	private String id;
 
+	private String offerId;
+
 	private String name;
 
 	// Discount, Cashback, Reward points, Others
@@ -32,8 +34,6 @@ public class Offer {
 
 	private String offerDetails;
 
-	private String howToAvail;
-
 	private String tAndC;
 
 	private Merchant merchant;
@@ -42,9 +42,7 @@ public class Offer {
 
 	private Category category;
 
-	private String subCategory;
-
-	private Segment segment;
+	private List<Segment> segments;
 
 	public String getId() {
 		return id;
@@ -52,6 +50,14 @@ public class Offer {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getOfferId() {
+		return offerId;
+	}
+
+	public void setOfferId(String offerId) {
+		this.offerId = offerId;
 	}
 
 	public String getName() {
@@ -94,28 +100,12 @@ public class Offer {
 		this.merchant = merchant;
 	}
 
-	public Segment getSegment() {
-		return segment;
-	}
-
-	public void setSegment(Segment segment) {
-		this.segment = segment;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public String getSubCategory() {
-		return subCategory;
-	}
-
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
 	}
 
 	public Date getStartDate() {
@@ -150,14 +140,6 @@ public class Offer {
 		this.offerDetails = offerDetails;
 	}
 
-	public String getHowToAvail() {
-		return howToAvail;
-	}
-
-	public void setHowToAvail(String howToAvail) {
-		this.howToAvail = howToAvail;
-	}
-
 	public String gettAndC() {
 		return tAndC;
 	}
@@ -174,13 +156,21 @@ public class Offer {
 		this.subscriptionCost = subscriptionCost;
 	}
 
+	public List<Segment> getSegments() {
+		return segments;
+	}
+
+	public void setSegments(List<Segment> segments) {
+		this.segments = segments;
+	}
+
 	@Override
 	public String toString() {
-		return "Offer [id=" + id + ", name=" + name + ", offerType=" + offerType + ", offersAt=" + offersAt
-				+ ", description=" + description + ", merchant=" + merchant + ", segment=" + segment + ", category="
-				+ category + ", subCategory=" + subCategory + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", offerDetails=" + offerDetails + ", howToAvail=" + howToAvail + ", tAndC=" + tAndC
-				+ ", subscriptionCost=" + subscriptionCost + "]";
+		return "Offer [id=" + id + ", offerId=" + offerId + ", name=" + name + ", offerType=" + offerType
+				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", offerStatus=" + offerStatus + ", offersAt=" + offersAt + ", offerDetails=" + offerDetails
+				+ ", tAndC=" + tAndC + ", merchant=" + merchant + ", subscriptionCost=" + subscriptionCost
+				+ ", category=" + category + ", segments=" + segments + "]";
 	}
 
 }

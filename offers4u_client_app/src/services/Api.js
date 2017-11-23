@@ -10,9 +10,6 @@ let userAccessToken = "";
 
 
 export function loginUser(payload) {
-  console.log(payload);
-  console.log(qs.stringify(payload));
-
   return axiosInstance
     .post(
       "login",
@@ -110,7 +107,7 @@ export function getOffersById(offerId) {
     .then(response => response.data);
 }
 
-export function getReports(offerId) {
+export function getReports() {
   return axiosInstance
     .get('reports')
     .then(response => response.data);

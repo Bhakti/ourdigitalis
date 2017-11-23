@@ -17,16 +17,13 @@ public interface CustomerRepository extends MongoRepository<Customer, String> {
 	@Query(value = "{ 'cardNumber' :  ?0  }")
 	public Customer findByCardNumber(String cardNumber);
 
-	@Query(value = "{ 'id' :  ?0 }")
-	public Customer findProfileByCustomerId(String customerId);
-
-	@Query(value = "{ 'recommendedOffers.offer.id' : ?0}", fields = "{_id : 0}")
+	@Query(value = "{ 'recommendedOffers.offer.offerId' : ?0}", fields = "{_id : 0}")
 	public List<Customer> findCustomerIdByRecommendedOfferId(String offerId);
 
-	@Query(value = "{ 'recommendedOffers.offer.id' : ?0, 'recommendedOffers.result' : 'interested' }", fields = "{_id : 0}")
+	@Query(value = "{ 'recommendedOffers.offer.offerId' : ?0, 'recommendedOffers.result' : 'clicked' }", fields = "{_id : 0}")
 	public List<Customer> findCustomerIdByRecommendedOfferIdInterested(String offerId);
 
-	@Query(value = "{ 'recommendedOffers.offer.id' : ?0, 'recommendedOffers.result' : 'availed' }", fields = "{_id : 0}")
+	@Query(value = "{ 'recommendedOffers.offer.offerId' : ?0, 'recommendedOffers.result' : 'availed' }", fields = "{_id : 0}")
 	public List<Customer> findCustomerIdByRecommendedOfferIdAvailed(String offerId);
-
+	
 }

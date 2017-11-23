@@ -45,7 +45,7 @@ public class OffersServiceImpl implements OffersService {
 
 	@Override
 	public Offer getOffer(String offerId) {
-		return offerRepository.findOne(offerId);
+		return offerRepository.findByOfferId(offerId);
 	}
 
 	@Override
@@ -56,11 +56,6 @@ public class OffersServiceImpl implements OffersService {
 	@Override
 	public List<Offer> getOffersByMerchantName(String merchantName) {
 		return offerRepository.findByMerchantName(merchantName);
-	}
-
-	@Override
-	public List<Offer> getOffersBySegmentName(String segmentName) {
-		return offerRepository.findBySegmentName(segmentName);
 	}
 
 	@Override
