@@ -126,10 +126,11 @@ public class CustomerServiceImpl implements CustomerService {
 								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
 								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
 										recommendedOffer.getOffer().getCategory().getCategoryName())) {
-									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
-									categoryData.setAvailedCount(categoryData.getAvailedCount() + 1);
-									savedCustomer.getCategoryData()
-											.add(savedCustomer.getCategoryData().indexOf(categoryData), categoryData);
+									System.out.println("category match");
+									savedCustomer.getCategoryData().get(j)
+											.setCategory(recommendedOffer.getOffer().getCategory());
+									savedCustomer.getCategoryData().get(j)
+											.setAvailedCount(categoryData.getAvailedCount() + 1);
 									break;
 								}
 							}
@@ -162,46 +163,47 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
-				for (int index = 0; index < savedCustomer.getRecommendedOffers().size(); index++) {
-					RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
-
-					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
-						recommendedOffer.setClickedDate(new Date());
-						System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
-						if (savedCustomer.getCategoryData() != null) {
-							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
-								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
-
-								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
-										recommendedOffer.getOffer().getCategory().getCategoryName())) {
-									System.out.println("category match");
-									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
-									categoryData.setClickedCount(categoryData.getAvailedCount() + 1);
-
-									savedCustomer.getCategoryData()
-											.add(savedCustomer.getCategoryData().indexOf(categoryData), categoryData);
-									break;
-								}
-							}
-						} else {
-							// customer has first time clicked offer.//create category data
-							CategoryData categoryData = new CategoryData();
-							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
-							categoryData.setClickedCount(1);
+				if (savedCustomer.getRecommendedOffers() != null) {
+					for (int index = 0; index < savedCustomer.getRecommendedOffers().size(); index++) {
+						RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
+						if (offerId != null && recommendedOffer != null && recommendedOffer.getOffer() != null
+								&& offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
+							recommendedOffer.setClickedDate(new Date());
 							//
-							savedCustomer.setCategoryData(new ArrayList<CategoryData>());
-							savedCustomer.getCategoryData().add(categoryData);
-						}
+							System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
+							if (savedCustomer.getCategoryData() != null) {
+								for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
+									CategoryData categoryData = savedCustomer.getCategoryData().get(j);
+									if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
+											recommendedOffer.getOffer().getCategory().getCategoryName())) {
+										System.out.println("category match");
+										savedCustomer.getCategoryData().get(j)
+												.setCategory(recommendedOffer.getOffer().getCategory());
+										savedCustomer.getCategoryData().get(j)
+												.setClickedCount(categoryData.getClickedCount() + 1);
+										break;
+									}
+								}
+							} else {
+								// customer has first time clicked offer.//create category data
+								CategoryData categoryData = new CategoryData();
+								categoryData.setCategory(recommendedOffer.getOffer().getCategory());
+								categoryData.setClickedCount(1);
+								//
+								savedCustomer.setCategoryData(new ArrayList<CategoryData>());
+								savedCustomer.getCategoryData().add(categoryData);
+							}
 
-						savedCustomer.getRecommendedOffers().set(index, recommendedOffer);
-						flag = true;
-						break;
+							savedCustomer.getRecommendedOffers().set(index, recommendedOffer);
+							flag = true;
+							break;
+						}
 					}
+					System.out.println(savedCustomer.getCategoryData().toString());
+					//
+					if (flag)
+						customerRepository.save(savedCustomer);
 				}
-				System.out.println(savedCustomer.getCategoryData().toString());
-				//
-				if (flag)
-					customerRepository.save(savedCustomer);
 			}
 		}
 		return flag;
