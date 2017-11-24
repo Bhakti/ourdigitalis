@@ -11,14 +11,19 @@ import com.offers4u.mongodb.domain.Category;
 import com.offers4u.mongodb.domain.CategoryData;
 import com.offers4u.mongodb.domain.Customer;
 import com.offers4u.mongodb.domain.Notification;
+import com.offers4u.mongodb.domain.Offer;
 import com.offers4u.mongodb.domain.RecommendedOffer;
 import com.offers4u.mongodb.repository.CustomerRepository;
+import com.offers4u.mongodb.repository.OfferRepository;
 
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
+	@Autowired
+	private OfferRepository offerRepository;
 
 	@Override
 	public List<Customer> getCustomers() {
@@ -75,26 +80,6 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer) {
-		// TO DO
-		// Incomplete
-		if (customerId != null) {
-			//
-			Customer savedCustomer = customerRepository.findOne(customerId);
-			//
-			if (savedCustomer != null) {
-				savedCustomer = customerRepository.save(savedCustomer);
-				if (savedCustomer != null) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-		return false;
-	}
-
-	@Override
 	public boolean updateCustomerNotifications(String customerId, List<Notification> notifications) {
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
@@ -111,21 +96,17 @@ public class CustomerServiceImpl implements CustomerService {
 		return false;
 	}
 
-	@Override
-	public boolean updateCustomerRecommendedOffers(String customerId, List<RecommendedOffer> recommendedOffers) {
-		if (customerId != null) {
-			Customer savedCustomer = customerRepository.findOne(customerId);
-			if (savedCustomer != null) {
-				savedCustomer.setRecommendedOffers(recommendedOffers);
-				savedCustomer = customerRepository.save(savedCustomer);
-				if (savedCustomer != null) {
-					return true;
-				} else {
-					return false;
-				}
+	private RecommendedOffer getRecommendedOfferByOfferId(String offerId,
+			List<RecommendedOffer> recommendedOffersList) {
+		RecommendedOffer retRecommendedOffer = null;
+		for (int index = 0; index < recommendedOffersList.size(); index++) {
+			RecommendedOffer recommendedOffer = recommendedOffersList.get(index);
+			if (offerId != null && recommendedOffer.getOffer() != null
+					&& offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
+				retRecommendedOffer = recommendedOffer;
 			}
 		}
-		return false;
+		return retRecommendedOffer;
 	}
 
 	@Override
@@ -139,6 +120,7 @@ public class CustomerServiceImpl implements CustomerService {
 					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
 						recommendedOffer.setAvailedDate(new Date());
 						System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
+
 						if (savedCustomer.getCategoryData() != null) {
 							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
 								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
@@ -146,10 +128,12 @@ public class CustomerServiceImpl implements CustomerService {
 										recommendedOffer.getOffer().getCategory().getCategoryName())) {
 									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
 									categoryData.setAvailedCount(categoryData.getAvailedCount() + 1);
-									savedCustomer.getCategoryData().add(categoryData);
+									savedCustomer.getCategoryData()
+											.add(savedCustomer.getCategoryData().indexOf(categoryData), categoryData);
 									break;
 								}
 							}
+
 						} else {
 							CategoryData categoryData = new CategoryData();
 							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
@@ -157,6 +141,7 @@ public class CustomerServiceImpl implements CustomerService {
 							savedCustomer.setCategoryData(new ArrayList<CategoryData>());
 							savedCustomer.getCategoryData().add(categoryData);
 						}
+
 						savedCustomer.getRecommendedOffers().set(index, recommendedOffer);
 						flag = true;
 						break;
@@ -185,20 +170,21 @@ public class CustomerServiceImpl implements CustomerService {
 						System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
 						if (savedCustomer.getCategoryData() != null) {
 							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
-								
 								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
-								
+
 								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
 										recommendedOffer.getOffer().getCategory().getCategoryName())) {
 									System.out.println("category match");
 									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
 									categoryData.setClickedCount(categoryData.getAvailedCount() + 1);
-									savedCustomer.getCategoryData().add(categoryData);
+
+									savedCustomer.getCategoryData()
+											.add(savedCustomer.getCategoryData().indexOf(categoryData), categoryData);
 									break;
 								}
 							}
 						} else {
-							//customer has first time clicked offer.//create category data
+							// customer has first time clicked offer.//create category data
 							CategoryData categoryData = new CategoryData();
 							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
 							categoryData.setClickedCount(1);
@@ -221,4 +207,75 @@ public class CustomerServiceImpl implements CustomerService {
 		return flag;
 	}
 
+	@Override
+	public boolean updateCustomerRecommendedOffer(String customerId, List<String> recommendedOffers) {
+		if (customerId != null && recommendedOffers != null) {
+			Customer savedCustomer = customerRepository.findOne(customerId);
+			if (savedCustomer != null) {
+				List<RecommendedOffer> newList = new ArrayList<>();
+				if (savedCustomer.getRecommendedOffers() != null) {
+					for (String offerId : recommendedOffers) {
+						RecommendedOffer recommendedOffer = getRecommendedOfferByOfferId(offerId,
+								savedCustomer.getRecommendedOffers());
+						if (recommendedOffer == null) {
+							Offer offer = offerRepository.findByOfferId(offerId);
+							if (offer != null) {
+								RecommendedOffer newRecommendedOffer = new RecommendedOffer();
+								newRecommendedOffer.setOffer(offer);
+								newRecommendedOffer.setRollOutDate(new Date());
+								newRecommendedOffer.setRecommended(true);
+								newList.add(newRecommendedOffer);
+								System.out.println("add extra");
+							}
+						} else {
+							// Already in list update recommended flag.
+							Offer offer = offerRepository.findByOfferId(offerId);
+							if (offer != null) {
+								recommendedOffer.setOffer(offer);
+							}
+							if (!recommendedOffer.isRecommended())
+								recommendedOffer.setRollOutDate(new Date());
+							recommendedOffer.setRecommended(true);
+							savedCustomer.getRecommendedOffers().set(
+									savedCustomer.getRecommendedOffers().indexOf(recommendedOffer), recommendedOffer);
+							System.out.println("Re rollout not needed");
+						}
+					}
+					// remove / recommend false for not recommended offers
+					for (RecommendedOffer recommendedOffer : savedCustomer.getRecommendedOffers()) {
+						if (recommendedOffer.getOffer() != null
+								&& !recommendedOffers.contains(recommendedOffer.getOffer().getOfferId())) {
+							recommendedOffer.setRecommended(false);
+							recommendedOffer.setRollOutDate(null);
+							System.out.println("Remove not needed");
+						}
+					}
+					//
+					savedCustomer.getRecommendedOffers().addAll(newList);
+				} else {
+					// no offers were suggested
+					for (String offerId : recommendedOffers) {
+						Offer offer = offerRepository.findByOfferId(offerId);
+						if (offer != null) {
+							RecommendedOffer newRecommendedOffer = new RecommendedOffer();
+							newRecommendedOffer.setOffer(offer);
+							newRecommendedOffer.setRecommended(true);
+							newRecommendedOffer.setRollOutDate(new Date());
+							newList.add(newRecommendedOffer);
+						}
+					}
+					savedCustomer.setRecommendedOffers(newList);
+					System.out.println("Adding new");
+				}
+				System.out.println(savedCustomer.getRecommendedOffers().toString());
+				savedCustomer = customerRepository.save(savedCustomer);
+				if (savedCustomer != null) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
 }

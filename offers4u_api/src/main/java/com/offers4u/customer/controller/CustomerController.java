@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.offers4u.common.RecommendedOfferRequest;
 import com.offers4u.customer.service.CustomerService;
 import com.offers4u.mongodb.domain.Category;
 import com.offers4u.mongodb.domain.Customer;
@@ -71,9 +73,12 @@ public class CustomerController {
 	// Add rest api to update notifications
 
 	// Add rest api to update recommended offers
-	
-	
-	
+	@RequestMapping(value = "/{customerId}/offers", method = RequestMethod.POST, headers = "Accept=application/json", produces = "application/json")
+	@ResponseBody
+	public boolean saveCustomerRecommendedOffers(@PathVariable("customerId") String customerId,
+			@RequestBody RecommendedOfferRequest request) {
+		return customerService.updateCustomerRecommendedOffer(customerId, request.getOffers());
+	}
 
 	// Add rest api to update recommended offer click - interest shown
 	@RequestMapping(value = "/{customerId}/clicked/{offerId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")

@@ -20,6 +20,8 @@ public class Offer {
 	// Discount, Cashback, Reward points, Others
 	private String offerType;
 
+	private int offerDiscount;
+
 	private String description;
 
 	private Date startDate;
@@ -74,6 +76,14 @@ public class Offer {
 
 	public void setOfferType(String offerType) {
 		this.offerType = offerType;
+	}
+
+	public int getOfferDiscount() {
+		return offerDiscount;
+	}
+
+	public void setOfferDiscount(int offerDiscount) {
+		this.offerDiscount = offerDiscount;
 	}
 
 	public List<String> getOffersAt() {
@@ -179,10 +189,10 @@ public class Offer {
 	@Override
 	public String toString() {
 		return "Offer [id=" + id + ", offerId=" + offerId + ", name=" + name + ", offerType=" + offerType
-				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", startDateStr=" + startDateStr + ", endDateStr=" + endDateStr + ", offersAt=" + offersAt
-				+ ", offerDetails=" + offerDetails + ", tAndC=" + tAndC + ", merchant=" + merchant
-				+ ", subscriptionCost=" + subscriptionCost + ", category=" + category + ", segments=" + segments + "]";
+				+ ", offerDiscount=" + offerDiscount + ", description=" + description + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", startDateStr=" + startDateStr + ", endDateStr=" + endDateStr
+				+ ", offersAt=" + offersAt + ", offerDetails=" + offerDetails + ", tAndC=" + tAndC + ", merchant="
+				+ merchant + ", subscriptionCost=" + subscriptionCost + ", category=" + category + ", segments="
+				+ segments + "]";
 	}
-
 }

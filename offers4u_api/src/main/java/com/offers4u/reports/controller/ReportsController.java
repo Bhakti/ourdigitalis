@@ -15,18 +15,25 @@ import com.offers4u.reports.service.ReportService;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-@RequestMapping(path = "/api/v1/reports")
+@RequestMapping(path = "/api/v1")
 public class ReportsController {
 
 	@Autowired
 	private ReportService reportService;
 
-	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@RequestMapping(value = "/reports", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
 	@ResponseBody
 	public List<OfferReport> getOffersReports(@RequestParam(name = "merchant", required = false) String merchantName,
 			@RequestParam(name = "fromDate", required = false) String fromDate,
 			@RequestParam(name = "toDate", required = false) String toDate) {
 		return reportService.getOffersReports(merchantName, fromDate, toDate);
+	}
+
+	@RequestMapping(value = "/customerfeatures", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	@ResponseBody
+	public List<List<String>> getCustomerOffers() {
+		return reportService.getAllCustomerOffersDataList();
+
 	}
 
 }

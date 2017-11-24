@@ -94,7 +94,7 @@ public class RecommendedOffer {
 
 	@Override
 	public String toString() {
-		return "RecommendedOffer [offer=" + offer.toString() + ", rollOutDate=" + rollOutDate + ", clickedDate=" + clickedDate
+		return "RecommendedOffer [offer=" + offer + ", rollOutDate=" + rollOutDate + ", clickedDate=" + clickedDate
 				+ ", availedDate=" + availedDate + ", isRecommended=" + isRecommended + ", result=" + result
 				+ ", comment=" + comment + ", rating=" + rating + "]";
 	}

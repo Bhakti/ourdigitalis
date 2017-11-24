@@ -14,5 +14,7 @@ import com.offers4u.common.OfferReport;
 public interface ReportService {
 
 	List<OfferReport> getOffersReports(String merchantName, String fromDate, String toDate);
+	
+	List<List<String>> getAllCustomerOffersDataList();
 
 }

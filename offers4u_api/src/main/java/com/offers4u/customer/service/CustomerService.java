@@ -26,11 +26,9 @@ public interface CustomerService {
 	//
 	boolean updateCustomerProfile(Customer customer);
 
-	boolean updateCustomerRecommendedOffers(String customerId, List<RecommendedOffer> recommendedOffers);
-
 	// This will be called when endCustomer rates, comments, clicks for interest or
 	// avails offer.
-	boolean updateCustomerRecommendedOffer(String customerId, RecommendedOffer recommendedOffer);
+	boolean updateCustomerRecommendedOffer(String customerId, List<String> recommendedOffers);
 
 	boolean updateCustomerNotifications(String customerId, List<Notification> notifications);
 
