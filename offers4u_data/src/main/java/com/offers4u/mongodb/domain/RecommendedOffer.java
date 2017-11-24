@@ -5,8 +5,6 @@ package com.offers4u.mongodb.domain;
 
 import java.util.Date;
 
-import javax.persistence.Transient;
-
 /**
  * @author Bhakti Atul Pradhan
  *
@@ -29,9 +27,6 @@ public class RecommendedOffer {
 	private String comment;
 
 	private String rating;
-
-	@Transient
-	private String avgRating;
 
 	public Offer getOffer() {
 		return offer;
@@ -63,14 +58,6 @@ public class RecommendedOffer {
 
 	public void setRating(String rating) {
 		this.rating = rating;
-	}
-
-	public String getAvgRating() {
-		return avgRating;
-	}
-
-	public void setAvgRating(String avgRating) {
-		this.avgRating = avgRating;
 	}
 
 	public String getResult() {
@@ -109,7 +96,7 @@ public class RecommendedOffer {
 	public String toString() {
 		return "RecommendedOffer [offer=" + offer.toString() + ", rollOutDate=" + rollOutDate + ", clickedDate=" + clickedDate
 				+ ", availedDate=" + availedDate + ", isRecommended=" + isRecommended + ", result=" + result
-				+ ", comment=" + comment + ", rating=" + rating + ", avgRating=" + avgRating + "]";
+				+ ", comment=" + comment + ", rating=" + rating + "]";
 	}
 
 }

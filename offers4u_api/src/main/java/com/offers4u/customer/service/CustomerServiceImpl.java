@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,6 @@ import com.offers4u.mongodb.domain.RecommendedOffer;
 import com.offers4u.mongodb.repository.CustomerRepository;
 
 @Service("customerService")
-@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
@@ -141,6 +138,7 @@ public class CustomerServiceImpl implements CustomerService {
 					RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
 					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
 						recommendedOffer.setAvailedDate(new Date());
+						System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
 						if (savedCustomer.getCategoryData() != null) {
 							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
 								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
@@ -164,6 +162,7 @@ public class CustomerServiceImpl implements CustomerService {
 						break;
 					}
 				}
+				System.out.println(savedCustomer.getCategoryData().toString());
 				//
 				if (flag)
 					customerRepository.save(savedCustomer);
@@ -180,13 +179,18 @@ public class CustomerServiceImpl implements CustomerService {
 			if (savedCustomer != null) {
 				for (int index = 0; index < savedCustomer.getRecommendedOffers().size(); index++) {
 					RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
+
 					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
 						recommendedOffer.setClickedDate(new Date());
+						System.out.println(recommendedOffer.getOffer().getCategory().getCategoryName());
 						if (savedCustomer.getCategoryData() != null) {
 							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
+								
 								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
+								
 								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
 										recommendedOffer.getOffer().getCategory().getCategoryName())) {
+									System.out.println("category match");
 									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
 									categoryData.setClickedCount(categoryData.getAvailedCount() + 1);
 									savedCustomer.getCategoryData().add(categoryData);
@@ -194,9 +198,11 @@ public class CustomerServiceImpl implements CustomerService {
 								}
 							}
 						} else {
+							//customer has first time clicked offer.//create category data
 							CategoryData categoryData = new CategoryData();
 							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
 							categoryData.setClickedCount(1);
+							//
 							savedCustomer.setCategoryData(new ArrayList<CategoryData>());
 							savedCustomer.getCategoryData().add(categoryData);
 						}
@@ -206,6 +212,7 @@ public class CustomerServiceImpl implements CustomerService {
 						break;
 					}
 				}
+				System.out.println(savedCustomer.getCategoryData().toString());
 				//
 				if (flag)
 					customerRepository.save(savedCustomer);

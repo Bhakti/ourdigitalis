@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,14 +26,9 @@ public class Offer {
 
 	private Date endDate;
 
-	@Transient
 	private String startDateStr;
 
-	@Transient
 	private String endDateStr;
-
-	@Transient
-	private String offerStatus;
 
 	private List<String> offersAt;
 
@@ -149,15 +142,6 @@ public class Offer {
 
 	public void setEndDateStr(String endDateStr) {
 		this.endDateStr = endDateStr;
-
-	}
-
-	public String getOfferStatus() {
-		return offerStatus;
-	}
-
-	public void setOfferStatus(String offerStatus) {
-		this.offerStatus = offerStatus;
 	}
 
 	public String getOfferDetails() {
@@ -196,9 +180,9 @@ public class Offer {
 	public String toString() {
 		return "Offer [id=" + id + ", offerId=" + offerId + ", name=" + name + ", offerType=" + offerType
 				+ ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", offerStatus=" + offerStatus + ", offersAt=" + offersAt + ", offerDetails=" + offerDetails
-				+ ", tAndC=" + tAndC + ", merchant=" + merchant + ", subscriptionCost=" + subscriptionCost
-				+ ", category=" + category + ", segments=" + segments + "]";
+				+ ", startDateStr=" + startDateStr + ", endDateStr=" + endDateStr + ", offersAt=" + offersAt
+				+ ", offerDetails=" + offerDetails + ", tAndC=" + tAndC + ", merchant=" + merchant
+				+ ", subscriptionCost=" + subscriptionCost + ", category=" + category + ", segments=" + segments + "]";
 	}
 
 }

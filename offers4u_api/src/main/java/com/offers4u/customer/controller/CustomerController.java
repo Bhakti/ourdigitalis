@@ -70,6 +70,11 @@ public class CustomerController {
 
 	// Add rest api to update notifications
 
+	// Add rest api to update recommended offers
+	
+	
+	
+
 	// Add rest api to update recommended offer click - interest shown
 	@RequestMapping(value = "/{customerId}/clicked/{offerId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
 	@ResponseBody

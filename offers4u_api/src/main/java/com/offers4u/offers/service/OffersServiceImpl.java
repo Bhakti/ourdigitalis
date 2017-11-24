@@ -3,8 +3,6 @@ package com.offers4u.offers.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +10,6 @@ import com.offers4u.mongodb.domain.Offer;
 import com.offers4u.mongodb.repository.OfferRepository;
 
 @Service("offerService")
-@Transactional
 public class OffersServiceImpl implements OffersService {
 
 	@Autowired
