@@ -1,5 +1,7 @@
 package com.offers4u.customer.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.offers4u.mongodb.domain.Category;
+import com.offers4u.mongodb.domain.CategoryData;
 import com.offers4u.mongodb.domain.Customer;
 import com.offers4u.mongodb.domain.Notification;
 import com.offers4u.mongodb.domain.RecommendedOffer;
@@ -134,11 +137,36 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
-				for (RecommendedOffer recommendedOffer : savedCustomer.getRecommendedOffers()) {
+				for (int index = 0; index < savedCustomer.getRecommendedOffers().size(); index++) {
+					RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
 					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
-						
+						recommendedOffer.setAvailedDate(new Date());
+						if (savedCustomer.getCategoryData() != null) {
+							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
+								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
+								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
+										recommendedOffer.getOffer().getCategory().getCategoryName())) {
+									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
+									categoryData.setAvailedCount(categoryData.getAvailedCount() + 1);
+									savedCustomer.getCategoryData().add(categoryData);
+									break;
+								}
+							}
+						} else {
+							CategoryData categoryData = new CategoryData();
+							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
+							categoryData.setAvailedCount(1);
+							savedCustomer.setCategoryData(new ArrayList<CategoryData>());
+							savedCustomer.getCategoryData().add(categoryData);
+						}
+						savedCustomer.getRecommendedOffers().set(index, recommendedOffer);
+						flag = true;
+						break;
 					}
 				}
+				//
+				if (flag)
+					customerRepository.save(savedCustomer);
 			}
 		}
 		return flag;
@@ -146,13 +174,44 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public boolean clickedOffer(String customerId, String offerId) {
+		boolean flag = false;
 		if (customerId != null) {
 			Customer savedCustomer = customerRepository.findOne(customerId);
 			if (savedCustomer != null) {
+				for (int index = 0; index < savedCustomer.getRecommendedOffers().size(); index++) {
+					RecommendedOffer recommendedOffer = savedCustomer.getRecommendedOffers().get(index);
+					if (offerId.equalsIgnoreCase(recommendedOffer.getOffer().getOfferId())) {
+						recommendedOffer.setClickedDate(new Date());
+						if (savedCustomer.getCategoryData() != null) {
+							for (int j = 0; j < savedCustomer.getCategoryData().size(); j++) {
+								CategoryData categoryData = savedCustomer.getCategoryData().get(j);
+								if (categoryData.getCategory().getCategoryName().equalsIgnoreCase(
+										recommendedOffer.getOffer().getCategory().getCategoryName())) {
+									categoryData.setCategory(recommendedOffer.getOffer().getCategory());
+									categoryData.setClickedCount(categoryData.getAvailedCount() + 1);
+									savedCustomer.getCategoryData().add(categoryData);
+									break;
+								}
+							}
+						} else {
+							CategoryData categoryData = new CategoryData();
+							categoryData.setCategory(recommendedOffer.getOffer().getCategory());
+							categoryData.setClickedCount(1);
+							savedCustomer.setCategoryData(new ArrayList<CategoryData>());
+							savedCustomer.getCategoryData().add(categoryData);
+						}
 
+						savedCustomer.getRecommendedOffers().set(index, recommendedOffer);
+						flag = true;
+						break;
+					}
+				}
+				//
+				if (flag)
+					customerRepository.save(savedCustomer);
 			}
 		}
-		return false;
+		return flag;
 	}
 
 }

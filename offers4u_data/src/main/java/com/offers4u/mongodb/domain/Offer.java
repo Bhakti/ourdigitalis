@@ -1,5 +1,6 @@
 package com.offers4u.mongodb.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,12 @@ public class Offer {
 	private Date startDate;
 
 	private Date endDate;
+
+	@Transient
+	private String startDateStr;
+
+	@Transient
+	private String endDateStr;
 
 	@Transient
 	private String offerStatus;
@@ -114,6 +121,8 @@ public class Offer {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/YYYY");
+		this.setStartDateStr(sf.format(startDate));
 	}
 
 	public Date getEndDate() {
@@ -122,6 +131,25 @@ public class Offer {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/YYYY");
+		this.setEndDateStr(sf.format(endDate));
+	}
+
+	public String getStartDateStr() {
+		return startDateStr;
+	}
+
+	public void setStartDateStr(String startDateStr) {
+		this.startDateStr = startDateStr;
+	}
+
+	public String getEndDateStr() {
+		return endDateStr;
+	}
+
+	public void setEndDateStr(String endDateStr) {
+		this.endDateStr = endDateStr;
+
 	}
 
 	public String getOfferStatus() {

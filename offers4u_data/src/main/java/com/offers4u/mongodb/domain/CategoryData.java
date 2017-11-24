@@ -4,9 +4,9 @@ public class CategoryData {
 
 	private Category category;
 
-	private Integer availedCount;
+	private int availedCount;
 
-	private Integer clickedCount;
+	private int clickedCount;
 
 	public Category getCategory() {
 		return category;
@@ -16,19 +16,19 @@ public class CategoryData {
 		this.category = category;
 	}
 
-	public Integer getAvailedCount() {
+	public int getAvailedCount() {
 		return availedCount;
 	}
 
-	public void setAvailedCount(Integer availedCount) {
+	public void setAvailedCount(int availedCount) {
 		this.availedCount = availedCount;
 	}
 
-	public Integer getClickedCount() {
+	public int getClickedCount() {
 		return clickedCount;
 	}
 
-	public void setClickedCount(Integer clickedCount) {
+	public void setClickedCount(int clickedCount) {
 		this.clickedCount = clickedCount;
 	}
 

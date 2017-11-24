@@ -16,7 +16,7 @@ public interface CustomerRepository extends MongoRepository<Customer, String> {
 
 	@Query(value = "{ 'cardNumber' :  ?0  }")
 	public Customer findByCardNumber(String cardNumber);
-
+	
 	@Query(value = "{ 'recommendedOffers.offer.offerId' : ?0}", fields = "{_id : 0}")
 	public List<Customer> findCustomerIdByRecommendedOfferId(String offerId);
 
