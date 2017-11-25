@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.offers4u.common.OfferReport;
 import com.offers4u.mongodb.domain.Category;
+import com.offers4u.mongodb.domain.CategoryData;
 import com.offers4u.mongodb.domain.Customer;
 import com.offers4u.mongodb.domain.Offer;
+import com.offers4u.mongodb.domain.RecommendedOffer;
 import com.offers4u.mongodb.repository.CustomerRepository;
 import com.offers4u.mongodb.repository.OfferRepository;
 
@@ -81,34 +83,97 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public List<List<String>> getAllCustomerOffersDataList() {
-
 		List<List<String>> processedCustomers = new ArrayList<List<String>>();
 
 		List<Customer> allCustomers = customerRepository.findAll();
+
 		for (Customer customer : allCustomers) {
+			// A
 			int ageOfCustomer = getAge(customer.getPersonalDetails().getDob());
-			List<Category> categoriesOfCustomer = customer.getCategoryPreferences();
+			// G
 			String gender = customer.getPersonalDetails().getGender();
+			// I
 			String incomeRange = customer.getPersonalDetails().getCurrentAnnualIncome();
-			List<String> custStringList = getAllInStringFormat(ageOfCustomer, categoriesOfCustomer, gender,
-					incomeRange);
+
+			// Top Prefer
+			List<Category> categoriesOfCustomer = customer.getCategoryPreferences();
+
+			List<CategoryData> categoriesData = customer.getCategoryData();
+
+			List<RecommendedOffer> recommendedOffers = customer.getRecommendedOffers();
+
+			List<String> custStringList = getAllInStringFormat(customer.getId(), ageOfCustomer, categoriesOfCustomer,
+					gender, incomeRange, recommendedOffers, categoriesData);
 
 			processedCustomers.add(custStringList);
 		}
 		return processedCustomers;
 	}
 
-	private List<String> getAllInStringFormat(int ageOfCustomer, List<Category> categoriesOfCustomer, String gender,
-			String incomeRange) {
-		List<String> cateString = new ArrayList<>();
-		for (Category category : categoriesOfCustomer) {
-			cateString.addAll(getCategoriesInEnumFormat(category.getCategoryName()));
-		}
+	private List<String> getAllInStringFormat(String customerId, int ageOfCustomer, List<Category> categoriesOfCustomer,
+			String gender, String incomeRange, List<RecommendedOffer> recommendedOffers,
+			List<CategoryData> categoriesData) {
 		List<String> custStringList = new ArrayList<>();
+		// Id
+		custStringList.add(customerId);
+		// Age
 		custStringList.add(getAgeEnumMapping(ageOfCustomer));
-		custStringList.addAll(cateString);
+		// Gender
 		custStringList.add(getGenderInEnumformat(gender));
+		// Income
 		custStringList.add(getIncomeEnumFormat(incomeRange));
+
+		// last availed category
+		String lastAvailed = "";
+		// top availed
+		String topAvailed = "";
+		// top clicked
+		String topClicked = "";
+
+		int topAvailedCount = 0;
+		int topClickedCount = 0;
+		if (categoriesData != null) {
+			//
+			if (categoriesData.size() > 1) {
+				topAvailed = categoriesData.get(0).getCategory().getCategoryName();
+				topClicked = categoriesData.get(0).getCategory().getCategoryName();
+			}
+			//
+			for (CategoryData categoryData : categoriesData) {
+				if (categoryData.getAvailedCount() <= topAvailedCount) {
+					topAvailedCount = categoryData.getAvailedCount();
+					topAvailed = categoryData.getCategory().getCategoryName();
+				}
+				if (categoryData.getClickedCount() <= topClickedCount) {
+					topClickedCount = categoryData.getClickedCount();
+					topClicked = categoryData.getCategory().getCategoryName();
+				}
+			}
+			topAvailed = getCategoriesInEnumFormat(topAvailed);
+			topClicked = getCategoriesInEnumFormat(topClicked);
+		}
+		custStringList.add(topAvailed);
+		custStringList.add(topClicked);
+
+		// top prefer
+		String topPreferred = "";
+		if (categoriesOfCustomer != null && categoriesOfCustomer.size() > 1) {
+			topPreferred = getCategoriesInEnumFormat(categoriesOfCustomer.get(0).getCategoryName());
+		}
+
+		// offers selected
+		List<String> offersSelected = new ArrayList<>();
+		if (recommendedOffers != null) {
+			for (RecommendedOffer recommendedOffer : recommendedOffers) {
+				if (recommendedOffer.getAvailedDate() != null) {
+					offersSelected.add("s " + recommendedOffer.getOffer().getOfferId());
+				}
+			}
+		}
+		custStringList.add(topPreferred);
+		custStringList.addAll(offersSelected);
+		//
+		// custStringList.addAll(cateString);
 		return custStringList;
 	}
 
@@ -149,41 +214,40 @@ public class ReportServiceImpl implements ReportService {
 		return genderString1;
 	}
 
-	List<String> getCategoriesInEnumFormat(String cat) {
-		List<String> catStr = new ArrayList<>();
+	String getCategoriesInEnumFormat(String cat) {
+		String catStr = "";
 		if ("Travel".equalsIgnoreCase(cat))
-			catStr.add("C1");
+			catStr = "C1";
 		else if ("Dining".equalsIgnoreCase(cat))
-			catStr.add("C2");
+			catStr = "C2";
 		else if ("Bill Payment".equalsIgnoreCase(cat))
-			catStr.add("C3");
+			catStr = "C3";
 		else if ("Grocery".equalsIgnoreCase(cat))
-			catStr.add("C4");
+			catStr = "C4";
 		else if ("Entertainment".equalsIgnoreCase(cat))
-			catStr.add("C5");
+			catStr = "C5";
 		else if ("Fashion & Accessiories".equalsIgnoreCase(cat))
-			catStr.add("C6");
+			catStr = "C6";
 		else if ("Beauty & Health".equalsIgnoreCase(cat))
-			catStr.add("C7");
+			catStr = "C7";
 		else if ("Gifting".equalsIgnoreCase(cat))
-			catStr.add("C8");
+			catStr = "C8";
 		else if ("Lifestyle".equalsIgnoreCase(cat))
-			catStr.add("C9");
+			catStr = "C9";
 		else if ("Electronics".equalsIgnoreCase(cat))
-			catStr.add("C10");
-
+			catStr = "C10";
 		return catStr;
 	}
 
 	String getIncomeEnumFormat(String income) {
 		String incomeStr = "";
-		if (Integer.getInteger(income)!=null && Integer.getInteger(income).intValue() < 18000)
+		if (Integer.getInteger(income) != null && Integer.getInteger(income).intValue() < 18000)
 			incomeStr = "I1";
-		else if (Integer.getInteger(income)!=null && Integer.getInteger(income).intValue() < 30000)
+		else if (Integer.getInteger(income) != null && Integer.getInteger(income).intValue() < 30000)
 			incomeStr = "I2";
-		else if (Integer.getInteger(income)!=null && Integer.getInteger(income).intValue() < 50000)
+		else if (Integer.getInteger(income) != null && Integer.getInteger(income).intValue() < 50000)
 			incomeStr = "I3";
-		else if (Integer.getInteger(income)!=null && Integer.getInteger(income).intValue() < 50000)
+		else if (Integer.getInteger(income) != null && Integer.getInteger(income).intValue() < 50000)
 			incomeStr = "I4";
 		return incomeStr;
 	}
